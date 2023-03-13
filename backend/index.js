@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+
 const PORT = process.env.PORT || 3000
 
 const { connectDB } = require('./src/config/db')
@@ -15,6 +16,10 @@ app.use(express.json())
 app.use('/', homeRoute);
 app.use('/admin', adminRoute);
 app.use('/login', loginRoute);
+
+//app.use('/employer') //provider
+//app.use('/employee') //worker
+//app.use('/jobs')
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

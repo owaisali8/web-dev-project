@@ -1,3 +1,7 @@
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4NzQwMzgyLCJleHAiOjE2Nzg3NDA5ODJ9.8b7h7uw0o7eli9sxojar7IyqYD2n1wxt--NIwUApwU8
+@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4NzM5NzEwLCJleHAiOjE2Nzg3NDMzMTB9.ecTPhTP-iSXJy25lRF-R3ZICHpMSCj4BqZ6XMF4_c9Q
+
+###
 POST http://localhost:3000/login
 Content-Type: application/json
 {
@@ -5,3 +9,11 @@ Content-Type: application/json
     "password": ""
 }
 ###
+
+POST http://localhost:3000/login/refreshToken
+
+Content-Type: application/json
+
+{
+  "refreshToken": "{{REFRESH_TOKEN}}"
+}

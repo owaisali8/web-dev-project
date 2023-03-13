@@ -23,7 +23,7 @@ const getAdmin = (req, res) => {
 }
 
 const getAdminNames = async (req, res) => {
-    result = await pool.query(adminQueries.getAllAdminsNames)
+    const result = await pool.query(adminQueries.getAllAdminsNames)
 
     const data = result.rows;
     res.status(200).json(data)
@@ -102,7 +102,7 @@ const deleteAdminByUsername = (req, res) => {
             return
         }
 
-        pool.query(adminQueries.deleteAdminByUsername, [username], (err, result) => {
+        pool.query(adminQueries.deleteAdminByUsername, [username], (err) => {
             if (err) {
                 console.log(err)
                 res.status(500).send()
@@ -174,7 +174,7 @@ const signUpAdmin = async (req, res) => {
 
     const hashedPwd = await bcrypt.hash(password, 10)
 
-    await pool.query(loginQueries.createAdminLogin, [username, hashedPwd], (err, result) => {
+    await pool.query(loginQueries.createAdminLogin, [username, hashedPwd], (err) => {
         if (err) {
             console.error(err)
             res.status(500).send()
@@ -182,7 +182,7 @@ const signUpAdmin = async (req, res) => {
         }
     });
 
-    await pool.query(adminQueries.createAdmin, [username, name, phone, email, address, dob, gender], (err, result) => {
+    await pool.query(adminQueries.createAdmin, [username, name, phone, email, address, dob, gender], (err) => {
         if (err) {
             console.log(err)
             res.status(500).send()

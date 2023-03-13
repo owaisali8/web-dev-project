@@ -1,16 +1,50 @@
+const { pool } = require('../config/db')
+const bcrypt = require('bcryptjs')
 
+const loginQueries = require('../data/loginQueries')
+const { generateAccessToken, generateRefreshToken } = require('../auth/auth')
 
-function login(req, res) {
-    const username = req.body.username
-    const password = req.body.password
-
-    if(username == null || password == null){
-        res.status(400).send("Enter Conrrect ID and Password")
+const login = async (req, res) => {
+    const { username, password } = req.body
+    if (!username || !password) {
+        res.status(404).send("Incorrect Username or Password.")
+        return
     }
 
-    res.send(`${username}\n${password}`);
+    const data = await pool.query(loginQueries.getUserLogin, [username])
+
+    if (!data.rowCount) {
+        res.status(404).send("Incorrect Username or Password.")
+        return
+    }
+
+    const hashedDBPwd = data.rows[0].password
+
+    if (!hashedDBPwd) {
+        res.status(404).send("Incorrect Username or Password.")
+        return
+    }
+
+    if (await bcrypt.compare(password, hashedDBPwd)) {
+        const usertype = data.rows[0].user_type
+        const user = { username: username, usertype: usertype }
+        const accessToken = generateAccessToken(user)
+        const refreshToken = generateRefreshToken(user)
+        res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
+    } else {
+        res.status(404).send("Incorrect Username or Password.")
+    }
+};
+
+const refreshUserLogin = (req, res) => {
+    const { username, usertype } = req.user
+    const user = { username: username, usertype: usertype }
+    const accessToken = generateAccessToken(user)
+    const refreshToken = generateRefreshToken(user)
+    res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
 }
 
 module.exports = {
-    login
+    login,
+    refreshUserLogin
 }
