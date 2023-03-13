@@ -42,7 +42,7 @@ Reason: Express.js, is a web application framework for Node.js, released as free
 - [ ] Create a frontend on Flutter using Material Design and web(optional).
 
 ### Schema
-<img src="https://github.com/owaisali8/web-dev-project/blob/master/SQL/Opera%20Snapshot_2023-03-11_045820_127.0.0.1.png" height="80%" width="80%" />
+<img src="https://github.com/owaisali8/web-dev-project/blob/main/SQL/Opera%20Snapshot_2023-03-11_045820_127.0.0.1.png" height="80%" width="80%" />
 
 ### Backend:
 
