@@ -1,0 +1,61 @@
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VydHlwZSI6IkVNUExPWUVSIiwiaWF0IjoxNjc4ODI5MzYyLCJleHAiOjE2Nzg4MzAyNjJ9.oby1ttjNmbRoxRjGfoAhDJtf1wGDrDE628gQg_-RqQY
+@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VydHlwZSI6IkVNUExPWUVSIiwiaWF0IjoxNjc4ODI4NTQ1LCJleHAiOjE2Nzg4MzIxNDV9.xcFeT1wLfwwo-8A3OZ_2nxuo-rzzi4f6aTu397Tva5s
+###
+GET  http://localhost:3000/employer/
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/employer/names
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/employer/id/2
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/employer/find?name=Arshad
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/employer/user
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+DELETE http://localhost:3000/employer/user
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+POST http://localhost:3000/employer/sign-up
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "user1234",
+  "name": "Mursheed Arshad",
+  "phone": "02003452321",
+  "email": "o2f4@gmail.com",
+  "address": "North Naz Karachi",
+  "dob": "05-12-2001",
+  "gender": "M"
+}
+###
+
+PATCH http://localhost:3000/employer/user
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "name": "Faheem Arshad",
+  "phone": "010012452321",
+  "email": "oasd234@gmail.com",
+  "address": "North Naz Karachi2",
+  "dob": "05-12-2001",
+  "gender": "M"
+}
+
+###
+
+PATCH http://localhost:3000/employer/updatePwd
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "username": "user",
+  "oldPassword": "user123",
+  "newPassword": "user112",
+  "retypedNewPwd": "user112"
+}

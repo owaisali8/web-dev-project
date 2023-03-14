@@ -81,9 +81,9 @@ const getAdminByName = (req, res) => {
     })
 }
 
-const deleteAdminByUsername = (req, res) => {
+const deleteAdminByUsername = async (req, res) => {
     const username = req.params.username
-    if (!username) res.status(400).send()
+    if (!username) return res.status(400).send()
     pool.query(adminQueries.getAdminByUsername, [username], (err, result) => {
         if (err) {
             console.log(err)
@@ -109,8 +109,8 @@ const deleteAdminByUsername = (req, res) => {
                 return
             }
 
+            pool.query(loginQueries.deleteUser, [username])
         });
-        pool.query(loginQueries.deleteUser, [username])
     });
 
     res.status(200).send()
@@ -205,10 +205,10 @@ const updateAdmin = async (req, res) => {
     const username = req.params.username
     if (!username) res.status(400).send()
 
-    if (req.user.username != username){
+    if (req.user.username != username) {
         return res.sendStatus(403)
     }
-    
+
     const { error } = adminValidator.adminUpdateSchema.validate(req.body)
 
     if (error) {
@@ -260,7 +260,7 @@ const updateAdminPwd = async (req, res) => {
 
     const { username, oldPassword, newPassword } = req.body
 
-    if (req.user.username != username){
+    if (req.user.username != username) {
         return res.sendStatus(403)
     }
 
