@@ -21,7 +21,7 @@ app.use('/', homeRoute);
 app.use('/admin', adminRoute);
 app.use('/login', loginRoute);
 app.use('/employer', employerRoute); //provider
-app.use('/employee', employeeRoute) //worker
+app.use('/employee', employeeRoute); //worker
 
 //app.use('/jobs')
 

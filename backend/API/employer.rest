@@ -59,3 +59,8 @@ Content-Type: application/json
   "newPassword": "user112",
   "retypedNewPwd": "user112"
 }
+
+###
+
+GET http://localhost:3000/employer/user/getImage 
+Authorization:  Bearer {{ACCESS_TOKEN}}

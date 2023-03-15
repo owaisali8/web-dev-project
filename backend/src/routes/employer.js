@@ -18,4 +18,7 @@ router.post('/sign-up', employerController.signUpEmployer)
 router.patch('/updatePwd', authenticateEmployer, employerController.updateEmployerPwd)
 router.patch('/:username', authenticateEmployer, employerController.updateEmployer)
 
+router.patch('/:username/uploadImage', authenticateEmployer, employerController.uploadImage)
+router.get('/:username/getImage', authenticateEmployer, employerController.getImage)
+
 module.exports = router
