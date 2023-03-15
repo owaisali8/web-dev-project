@@ -1,0 +1,32 @@
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyODk0LCJleHAiOjE2Nzg5MjM3OTR9.26TZ9a1sIzGcKvZYJTa1mUumMYkREfhx7hoFW0A6snI
+@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyNTE1LCJleHAiOjE2Nzg5MjYxMTV9.UGz6DDNNH-WtLWAlQ_nUGG7CwvSScL4vRh54vH7PJxI
+###
+GET  http://localhost:3000/employee/
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/employee/names
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/employee/id/1
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/employee/unverified
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/employee/verified
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/employee/find?name=Owais
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/employee/saleem
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+PATCH http://localhost:3000/employee/changeVerfication
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+    "username": "saleem",
+    "verified": "true"
+}

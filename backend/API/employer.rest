@@ -1,5 +1,5 @@
-@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VydHlwZSI6IkVNUExPWUVSIiwiaWF0IjoxNjc4ODI5MzYyLCJleHAiOjE2Nzg4MzAyNjJ9.oby1ttjNmbRoxRjGfoAhDJtf1wGDrDE628gQg_-RqQY
-@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VydHlwZSI6IkVNUExPWUVSIiwiaWF0IjoxNjc4ODI4NTQ1LCJleHAiOjE2Nzg4MzIxNDV9.xcFeT1wLfwwo-8A3OZ_2nxuo-rzzi4f6aTu397Tva5s
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VydHlwZSI6IkVNUExPWUVSIiwiaWF0IjoxNjc4OTIyNjU3LCJleHAiOjE2Nzg5MjM1NTd9.2TKINx4KbAUympN6jIZWauU-CTive7bEt2eKeo3wPgo
+@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyNTE1LCJleHAiOjE2Nzg5MjYxMTV9.UGz6DDNNH-WtLWAlQ_nUGG7CwvSScL4vRh54vH7PJxI
 ###
 GET  http://localhost:3000/employer/
 Authorization: Bearer {{ACCESS_TOKEN}}
@@ -7,7 +7,7 @@ Authorization: Bearer {{ACCESS_TOKEN}}
 GET  http://localhost:3000/employer/names
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
-GET  http://localhost:3000/employer/id/2
+GET  http://localhost:3000/employer/id/4
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
 GET  http://localhost:3000/employer/find?name=Arshad

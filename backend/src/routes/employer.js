@@ -1,6 +1,7 @@
 const { Router } = require('express')
 const { authenticateAdmin } = require('../middleware/authAdmin')
 const { authenticateEmployer } = require('../middleware/authEmployer')
+const authToken = require('../middleware/authToken')
 const router = Router()
 
 const employerController = require('../controllers/employerController')
@@ -8,8 +9,8 @@ const employerController = require('../controllers/employerController')
 router.get('/', authenticateAdmin, employerController.getEmployer)
 router.get('/names', authenticateAdmin, employerController.getEmployerNames)
 router.get('/id/:id', authenticateAdmin, employerController.getEmployerById)
-router.get('/find', authenticateEmployer, employerController.getEmployerByName)
-router.get('/:username', authenticateEmployer, employerController.getEmployerByUsername)
+router.get('/find', authToken, employerController.getEmployerByName)
+router.get('/:username', authToken, employerController.getEmployerByUsername)
 
 router.delete('/:username', authenticateEmployer, employerController.deleteEmployerByUsername)
 

@@ -1,5 +1,5 @@
-@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTA1Mzk2LCJleHAiOjE2Nzg5MDYyOTZ9.5MzfIghhpd6SuD4gF9ZK6A4bHHIvt7Ge1RrZG7HNT9o
-@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4ODI4ODcxLCJleHAiOjE2Nzg4MzI0NzF9.5DddC3VdAM6Upg7fm-7a2JReweyOLYkjSjsPn0QeBQk
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyNDcyLCJleHAiOjE2Nzg5MjMzNzJ9.ENQlDQIg3KYIP0qZnPU3ZUD2uy-RqqqOAePZjy3Sc5c
+@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyNTE1LCJleHAiOjE2Nzg5MjYxMTV9.UGz6DDNNH-WtLWAlQ_nUGG7CwvSScL4vRh54vH7PJxI
 ###
 GET  http://localhost:3000/admin/
 Authorization: Bearer {{ACCESS_TOKEN}}
@@ -85,6 +85,6 @@ GET http://localhost:3000/admin/testing/getImage
 Authorization: Bearer {{ACCESS_TOKEN}}
 
 ###
-
+//Do it on Postman 
 POST http://localhost:3000/admin/testing/uploadImage
 Authorization: Bearer {{ACCESS_TOKEN}}
