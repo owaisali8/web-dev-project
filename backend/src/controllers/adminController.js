@@ -288,12 +288,52 @@ const updateAdminPwd = async (req, res) => {
 
 }
 
+
+const uploadImage = async (req, res) => {
+    const username = req.params.username
+    if (!username) return res.sendStatus(400)
+    if (!req.files) return res.sendStatus(400)
+
+    if (req.user.username != username) {
+        return res.sendStatus(403)
+    }
+
+    const image = req.files.image.data;
+
+    if (!image) return res.sendStatus(400)
+    try {
+        await pool.query(adminQueries.updateImage, [image, username]);
+        res.sendStatus(201)
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500)
+    }
+
+}
+
+const getImage = async (req, res) => {
+    const username = req.params.username
+    if (!username) return res.sendStatus(400)
+
+    try {
+        const result = await pool.query(adminQueries.getImage, [username]);
+        res.setHeader('Content-Type', 'image/png')
+        res.status(200).send(result.rows[0].profile_pic)
+    }
+    catch (err) {
+        console.log(err)
+        res.sendStatus(500)
+    }
+
+}
+
 module.exports = {
     getAdmin,
     getAdminNames,
     getAdminByUsername,
     getAdminById,
     getAdminByName,
+    getImage,
 
     deleteAdminByUsername,
 
@@ -302,5 +342,6 @@ module.exports = {
     refreshAdminToken,
 
     updateAdmin,
-    updateAdminPwd
+    updateAdminPwd,
+    uploadImage
 }

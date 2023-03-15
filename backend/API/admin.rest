@@ -1,4 +1,4 @@
-@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4ODI4ODcxLCJleHAiOjE2Nzg4Mjk3NzF9.5v4IzTgHj2LNOGg68wOdHTkBr1sPP4FQXtkdPDkFKNY
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTA1Mzk2LCJleHAiOjE2Nzg5MDYyOTZ9.5MzfIghhpd6SuD4gF9ZK6A4bHHIvt7Ge1RrZG7HNT9o
 @REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4ODI4ODcxLCJleHAiOjE2Nzg4MzI0NzF9.5DddC3VdAM6Upg7fm-7a2JReweyOLYkjSjsPn0QeBQk
 ###
 GET  http://localhost:3000/admin/
@@ -80,3 +80,11 @@ Content-Type: application/json
   "newPassword": "admin600",
   "retypedNewPwd": "admin600"
 }
+###
+GET http://localhost:3000/admin/testing/getImage
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###
+
+POST http://localhost:3000/admin/testing/uploadImage
+Authorization: Bearer {{ACCESS_TOKEN}}

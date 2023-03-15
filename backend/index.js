@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const fileUpload = require('express-fileupload');
 
 const PORT = process.env.PORT || 3000
 
@@ -14,6 +15,7 @@ const employeeRoute = require('./src/routes/employee')
 connectDB()
 
 app.use(express.json())
+app.use(fileUpload())
 
 app.use('/', homeRoute);
 app.use('/admin', adminRoute);

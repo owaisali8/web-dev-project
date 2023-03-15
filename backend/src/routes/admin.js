@@ -14,10 +14,13 @@ router.delete('/:username', authenticateAdmin, adminController.deleteAdminByUser
 
 router.post('/login', adminController.loginAdmin)
 router.post('/sign-up', adminController.signUpAdmin)
-router.post('/refreshToken', authenticateAdminRefresh, adminController.refreshAdminToken) 
+router.post('/refreshToken', authenticateAdminRefresh, adminController.refreshAdminToken)
 //logout will del refreshTOken from frontend
 
 router.patch('/updatePwd', authenticateAdmin, adminController.updateAdminPwd)
 router.patch('/:username', authenticateAdmin, adminController.updateAdmin)
+
+router.patch('/:username/uploadImage', authenticateAdmin, adminController.uploadImage)
+router.get('/:username/getImage', authenticateAdmin, adminController.getImage)
 
 module.exports = router
