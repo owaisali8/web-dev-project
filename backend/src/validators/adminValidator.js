@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 const passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+//8 Charachters and 1 number is necessary
 
 const adminSchema = Joi.object({
     username: Joi.string().alphanum().min(3).required(),

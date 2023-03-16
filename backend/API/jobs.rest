@@ -1,0 +1,39 @@
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VydHlwZSI6IkVNUExPWUVSIiwiaWF0IjoxNjc5MDA4ODgwLCJleHAiOjE2NzkwMDk3ODB9.f-dNtwy4mCTnZpav1KNdxpgzc5zgDUfU1KXLx163ceg
+@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyNTE1LCJleHAiOjE2Nzg5MjYxMTV9.UGz6DDNNH-WtLWAlQ_nUGG7CwvSScL4vRh54vH7PJxI
+###
+GET  http://localhost:3000/jobs/
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/jobs/id/2
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+
+GET  http://localhost:3000/jobs/find?title=Chef
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###
+GET  http://localhost:3000/jobs/uncompletedJobs
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/jobs/user/myJobs
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET  http://localhost:3000/jobs/user/myAppliedJobs
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+DELETE   http://localhost:3000/jobs/owais/1
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+POST http://localhost:3000/jobs/createJob
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+    "username": "user",
+    "title": "Chef Needed",
+    "description": "We need require a chef",
+    "job_type": "Cooking",
+    "salary": "2000"
+}
+
+###

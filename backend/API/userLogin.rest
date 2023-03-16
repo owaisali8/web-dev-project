@@ -17,3 +17,13 @@ Content-Type: application/json
 {
   "refreshToken": "{{REFRESH_TOKEN}}"
 }
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "saleem",
+    "password": "user1234"
+}
+###

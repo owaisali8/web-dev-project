@@ -16,6 +16,7 @@ const updateEmployer = "UPDATE EMPLOYER SET NAME = $2, PHONE = $3, EMAIL = $4, A
 
 const updateImage = "UPDATE EMPLOYER SET PROFILE_PIC = $1 WHERE USERNAME = $2"
 
+const getIdFromUsername = "SELECT EMPLOYER_ID FROM EMPLOYER WHERE USERNAME = $1"
 
 module.exports = {
     getAllEmployers,
@@ -32,5 +33,7 @@ module.exports = {
     createEmployer,
 
     updateEmployer,
-    updateImage
+    updateImage,
+
+    getIdFromUsername
 }
