@@ -87,32 +87,8 @@ const deleteEmployerByUsername = async (req, res) => {
     const username = req.params.username
     if (!username) return res.sendStatus(400)
     if (req.user.username != username) return res.sendStatus(403);
-    pool.query(employerQueries.getEmployerByUsername, [username], (err, result) => {
-        if (err) {
-            console.log(err)
-            return res.sendStatus(500)
-        }
-
-        if (!result.rowCount) {
-            return res.status(404).json(null) 
-        }
-
-        const data = result.rows[0]
-
-        if (!data) {
-            return res.status(404).json(null)
-        }
-
-        pool.query(employerQueries.deleteEmployerByUsername, [username], (err) => {
-            if (err) {
-                console.log(err)
-                return res.sendStatus(500)
-            }
-
-        });
-
-        pool.query(loginQueries.deleteUser, [username], (err) => {if (err) console.error(err)})
-    });
+    
+    await pool.query(loginQueries.deleteUser, [username])
 
     res.sendStatus(200)
 }

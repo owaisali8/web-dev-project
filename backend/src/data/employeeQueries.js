@@ -8,7 +8,7 @@ const getEmployeeByUsername = 'SELECT * FROM EMPLOYEE WHERE USERNAME = $1';
 
 const checkEmployeeByPhone = "SELECT * FROM EMPLOYEE WHERE PHONE = $1";
 const checkEmployeeByEmail = "SELECT * FROM EMPLOYEE WHERE EMAIL = $1";
-const checkEmployeeByCNIC = "SELECT * FROM EMPLOYEE WHERE CNIC = $1";
+const checkEmployeeByCNIC = "SELECT * FROM EMPLOYEE WHERE CNIC_NO = $1";
 
 const createEmployee =
     "INSERT INTO EMPLOYEE(EMPLOYEE_ID, USERNAME, NAME, PHONE, EMAIL, ADDRESS, DOB, GENDER, CNIC_NO, JOB_TYPE, JOIN_DATE)" +

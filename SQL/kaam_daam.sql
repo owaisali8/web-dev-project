@@ -17,7 +17,7 @@ DOB Date NOT NULL,
 Gender CHAR(1) NOT NULL,
 Join_Date Date NOT NULL,
 Profile_Pic BYTEA,
-FOREIGN KEY(Username) REFERENCES Login(Username),
+FOREIGN KEY(Username) REFERENCES Login(Username) ON DELETE CASCADE,
 PRIMARY KEY(Admin_ID)
 );
 
@@ -33,7 +33,7 @@ DOB Date NOT NULL,
 Gender CHAR(1) NOT NULL,
 Join_Date Date NOT NULL,
 Profile_Pic BYTEA,
-FOREIGN KEY(Username) REFERENCES Login(Username),
+FOREIGN KEY(Username) REFERENCES Login(Username) ON DELETE CASCADE,
 PRIMARY KEY(Employer_ID)
 );
 
@@ -53,7 +53,7 @@ Verified bool DEFAULT FALSE,
 Rating numeric(3,2) DEFAULT 0, 
 CNIC_IMG BYTEA,
 Profile_Pic BYTEA,
-FOREIGN KEY(Username) REFERENCES Login(Username),
+FOREIGN KEY(Username) REFERENCES Login(Username) ON DELETE CASCADE,
 PRIMARY KEY(Employee_ID)
 );
 
@@ -66,15 +66,15 @@ Date_Posted DATE NOT NULL,
 Salary MONEY NOT NULL,
 Completed BOOL DEFAULT FALSE,
 Employer_ID INT,
-FOREIGN KEY(Employer_ID) REFERENCES Employer(Employer_ID)
+FOREIGN KEY(Employer_ID) REFERENCES Employer(Employer_ID) ON DELETE CASCADE
 );
 
 CREATE TABLE Applied_By (
 Job_ID INT,
 Employee_ID INT,
 Hired BOOL DEFAULT FALSE,
-FOREIGN KEY(Job_ID) REFERENCES Jobs(Job_ID),
-FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID)
+FOREIGN KEY(Job_ID) REFERENCES Jobs(Job_ID) ON DELETE CASCADE,
+FOREIGN KEY(Employee_ID) REFERENCES Employee(Employee_ID) ON DELETE CASCADE
 );
 
 -- For Testing 

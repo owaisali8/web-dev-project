@@ -1,5 +1,5 @@
-@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyNDcyLCJleHAiOjE2Nzg5MjMzNzJ9.ENQlDQIg3KYIP0qZnPU3ZUD2uy-RqqqOAePZjy3Sc5c
-@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyNTE1LCJleHAiOjE2Nzg5MjYxMTV9.UGz6DDNNH-WtLWAlQ_nUGG7CwvSScL4vRh54vH7PJxI
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc5MDc5NTg0LCJleHAiOjE2NzkwODMxODR9.LZBtao-6x6wdCBZL94ARbnaLUd5dHND3Vf5C_yKdeC4
+@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc5MDc5NTg0LCJleHAiOjE2NzkwODY3ODR9.Uuf-o6O2k7M6I9Wp-WRYqiXUXNRV1JvXXXgznXSdYG8
 ###
 GET  http://localhost:3000/admin/
 Authorization: Bearer {{ACCESS_TOKEN}}
@@ -7,13 +7,13 @@ Authorization: Bearer {{ACCESS_TOKEN}}
 GET http://localhost:3000/admin/names
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
-GET  http://localhost:3000/admin/id/8
+GET  http://localhost:3000/admin/id/2
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
-GET  http://localhost:3000/admin/admin1000
+GET  http://localhost:3000/admin/testing
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
-GET  http://localhost:3000/admin/find?name=Zubair
+GET  http://localhost:3000/admin/find?name=Faheem
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
 POST http://localhost:3000/admin/login
@@ -31,7 +31,7 @@ Content-Type: application/json
 
 {
   "username": "testing",
-  "password": "Testing1",
+  "password": "admin600",
   "name": "Faheem Arshad",
   "phone": "02003452321",
   "email": "o2f4@gmail.com",
@@ -76,7 +76,7 @@ Content-Type: application/json
 
 {
   "username": "testing",
-  "oldPassword": "hello123",
+  "oldPassword": "admin600",
   "newPassword": "admin600",
   "retypedNewPwd": "admin600"
 }
@@ -88,3 +88,5 @@ Authorization: Bearer {{ACCESS_TOKEN}}
 //Do it on Postman 
 POST http://localhost:3000/admin/testing/uploadImage
 Authorization: Bearer {{ACCESS_TOKEN}}
+
+

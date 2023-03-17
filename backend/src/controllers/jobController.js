@@ -121,6 +121,8 @@ const createJob = async (req, res) => {
 
     const { username, title, description, job_type, salary } = req.body
 
+    if (username != req.user.username) return res.sendStatus(403)
+
     try {
         const result = await pool.query(employerQueries.getIdFromUsername, [username]);
         if (!result.rowCount) return res.sendStatus(404);
@@ -140,8 +142,8 @@ const applyForJob = async (req, res) => {
         const result = await pool.query(employeeQueries.getEmployeeByUsername, [username]);
         if (!result.rowCount) return res.sendStatus(404);
         const employee_id = parseInt(result.rows[0].employee_id)
-        let job_id = parseInt(job_id)
-        await pool.query(jobQueries.applyJob, [job_id, employee_id])
+        const id = parseInt(job_id)
+        await pool.query(jobQueries.applyJob, [id, employee_id])
         res.sendStatus(200)
     } catch (err) {
         console.log(err)
@@ -158,7 +160,7 @@ const updateJob = async (req, res) => {
     }
 
     const { job_id, title, description, job_type, salary, completed } = req.body
-    
+
     try {
         const result = await pool.query(jobQueries.getJobByID, [parseInt(job_id)])
         if (!result.rowCount) return res.sendStatus(404)

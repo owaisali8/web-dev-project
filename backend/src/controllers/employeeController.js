@@ -124,14 +124,6 @@ const deleteEmployeeByUsername = async (req, res) => {
             return res.status(404).json(null)
         }
 
-        pool.query(employeeQueries.deleteEmployeeByUsername, [username], (err) => {
-            if (err) {
-                console.log(err)
-                return res.sendStatus(500)
-            }
-
-        });
-
         pool.query(loginQueries.deleteUser, [username], (err) => { if (err) console.error(err) })
     });
 
@@ -284,15 +276,19 @@ const uploadImage = async (req, res) => {
         return res.sendStatus(403)
     }
 
-    const image = req.files.image.data;
+    if (req.files.image.name.endsWith(".png") || req.files.image.name.endsWith(".jpg")) {
+        const image = req.files.image.data;
 
-    if (!image) return res.sendStatus(400)
-    try {
-        await pool.query(employeeQueries.updateImage, [image, username]);
-        res.sendStatus(201)
-    } catch (err) {
-        console.log(err)
-        res.sendStatus(500)
+        if (!image) return res.sendStatus(400)
+        try {
+            await pool.query(employeeQueries.updateImage, [image, username]);
+            res.sendStatus(201)
+        } catch (err) {
+            console.log(err)
+            res.sendStatus(500)
+        }
+    } else {
+        res.sendStatus(400);
     }
 
 }
@@ -323,15 +319,20 @@ const uploadCNIC = async (req, res) => {
         return res.sendStatus(403)
     }
 
-    const image = req.files.image.data;
+    if (req.files.image.name.endsWith(".png") || req.files.image.name.endsWith(".jpg")) {
 
-    if (!image) return res.sendStatus(400)
-    try {
-        await pool.query(employeeQueries.updateCNIC, [image, username]);
-        res.sendStatus(201)
-    } catch (err) {
-        console.log(err)
-        res.sendStatus(500)
+        const image = req.files.image.data;
+
+        if (!image) return res.sendStatus(400)
+        try {
+            await pool.query(employeeQueries.updateCNIC, [image, username]);
+            res.sendStatus(201)
+        } catch (err) {
+            console.log(err)
+            res.sendStatus(500)
+        }
+    } else {
+        return res.status(400).send("PNG only")
     }
 
 }
@@ -343,7 +344,7 @@ const getCNIC = async (req, res) => {
     try {
         const result = await pool.query(employeeQueries.getCNIC, [username]);
         res.setHeader('Content-Type', 'image/png')
-        res.status(200).send(result.rows[0].profile_pic)
+        res.status(200).send(result.rows[0].cnic_img)
     }
     catch (err) {
         console.log(err)

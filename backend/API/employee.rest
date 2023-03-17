@@ -1,4 +1,4 @@
-@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyODk0LCJleHAiOjE2Nzg5MjM3OTR9.26TZ9a1sIzGcKvZYJTa1mUumMYkREfhx7hoFW0A6snI
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbGVlbSIsInVzZXJ0eXBlIjoiRU1QTE9ZRUUiLCJpYXQiOjE2NzkwODE3NDEsImV4cCI6MTY3OTA4NTM0MX0.0hwvz2t0dtmwRyFtBoC7TrmL_d0S5JnhGhMfJZj6DCg
 @REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyNTE1LCJleHAiOjE2Nzg5MjYxMTV9.UGz6DDNNH-WtLWAlQ_nUGG7CwvSScL4vRh54vH7PJxI
 ###
 GET  http://localhost:3000/employee/
@@ -30,3 +30,54 @@ Content-Type: application/json
     "username": "saleem",
     "verified": "true"
 }
+
+###
+POST http://localhost:3000/employee/sign-up
+Content-Type: application/json
+
+{
+    "username":"saleem", 
+    "password":"saleem123", 
+    "name": "Saleem Ahmed",
+    "phone": "03110887898",
+    "email": "saleem@hotmail.com",
+    "address": "A-444 Gulshan",
+    "dob": "01-15-2000",
+    "gender": "M",
+    "cnic_no": "4210141703963",
+    "job_type":"Chef" 
+}
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "saleem",
+    "password": "saleem123"
+}
+###
+DELETE  http://localhost:3000/employee/saleem
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###
+PATCH http://localhost:3000/employee/saleem
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{ 
+    "name": "Faseeh Ahmed",
+    "phone": "03110887898",
+    "email": "saleem@hotmail.com",
+    "address": "A-444 Gulshan",
+    "dob": "01-15-2000",
+    "gender": "M",
+    "cnic_no": "4210141703963",
+    "job_type":"Chef" 
+}
+###
+GET http://localhost:3000/employee/saleem/getCNIC
+Authorization: Bearer {{ACCESS_TOKEN}}
+###
+GET http://localhost:3000/employee/saleem/getImage
+Authorization: Bearer {{ACCESS_TOKEN}}

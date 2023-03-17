@@ -1,4 +1,4 @@
-@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VydHlwZSI6IkVNUExPWUVSIiwiaWF0IjoxNjc5MDA4ODgwLCJleHAiOjE2NzkwMDk3ODB9.f-dNtwy4mCTnZpav1KNdxpgzc5zgDUfU1KXLx163ceg
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJ1c2VydHlwZSI6IkVNUExPWUVSIiwiaWF0IjoxNjc5MDg0NDU1LCJleHAiOjE2NzkwODgwNTV9.OJgpp6MloAlfcvJYvr9YxITjVGYgwY3EStfnGox6wm8
 @REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyNTE1LCJleHAiOjE2Nzg5MjYxMTV9.UGz6DDNNH-WtLWAlQ_nUGG7CwvSScL4vRh54vH7PJxI
 ###
 GET  http://localhost:3000/jobs/
@@ -18,10 +18,10 @@ Authorization: Bearer {{ACCESS_TOKEN}}
 GET  http://localhost:3000/jobs/user/myJobs
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
-GET  http://localhost:3000/jobs/user/myAppliedJobs
+GET  http://localhost:3000/jobs/saleem/myAppliedJobs
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
-DELETE   http://localhost:3000/jobs/owais/1
+DELETE   http://localhost:3000/jobs/user/1
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
 POST http://localhost:3000/jobs/createJob
@@ -37,3 +37,26 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:3000/jobs/applyForJob
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+    "username": "saleem",
+    "job_id" : "1"
+}
+###
+PATCH  http://localhost:3000/jobs/updateJob
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+    "job_id": "1",
+    "title": "Chef Needed",
+    "description": "We need require a chef",
+    "job_type": "Cooking",
+    "salary": "2000",
+    "completed": "true"
+}
+
+

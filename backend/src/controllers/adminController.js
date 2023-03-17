@@ -102,18 +102,17 @@ const deleteAdminByUsername = async (req, res) => {
             return
         }
 
-        pool.query(adminQueries.deleteAdminByUsername, [username], (err) => {
+        pool.query(loginQueries.deleteUser, [username], (err) => {
             if (err) {
                 console.log(err)
                 res.status(500).send()
                 return
             }
+        })
 
-            pool.query(loginQueries.deleteUser, [username])
-        });
+        res.status(200).send()
     });
 
-    res.status(200).send()
 }
 
 const loginAdmin = async (req, res) => {

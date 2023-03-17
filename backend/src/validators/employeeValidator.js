@@ -13,7 +13,7 @@ const employeeSchema = Joi.object({
     address: Joi.string().min(3).required(),
     dob: Joi.date().required(),
     gender: Joi.string().length(1).required(),
-    cnic_no: Joi.number().min(13).max(13).required(), 
+    cnic_no: Joi.string().length(13).pattern(/^[0-9]+$/).message("13 Digits Only").required(),
     job_type: Joi.string().min(2).required()
 });
 
@@ -24,7 +24,7 @@ const employeeUpdateSchema = Joi.object({
     address: Joi.string().min(3).required(),
     dob: Joi.date().required(),
     gender: Joi.string().length(1).required(),
-    cnic_no: Joi.number().min(13).max(13).required(), 
+    cnic_no: Joi.string().length(13).pattern(/^[0-9]+$/).message("13 Digits Only").required(),
     job_type: Joi.string().min(2).required()
 });
 
