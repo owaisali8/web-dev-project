@@ -27,6 +27,9 @@ const updateCNIC = "UPDATE EMPLOYEE SET CNIC_IMG = $1 WHERE USERNAME = $2";
 
 const changeVerification = "UPDATE EMPLOYEE SET VERIFIED = $1 WHERE USERNAME = $2";
 
+const getRating = "SELECT RATING FROM EMPLOYEE WHERE USERNAME = $1";
+const updateRating = "UPDATE EMPLOYEE SET RATING = $1 WHERE USERNAME = $2";
+
 
 module.exports = {
     getAllEmployees,
@@ -52,5 +55,8 @@ module.exports = {
 
     getCNIC,
     updateCNIC,
-    changeVerification
+    changeVerification,
+
+    getRating,
+    updateRating
 }

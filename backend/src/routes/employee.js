@@ -5,6 +5,7 @@ const authToken = require('../middleware/authToken')
 
 const router = Router()
 const employeeController = require('../controllers/employeeController')
+const { authenticateEmployer } = require('../middleware/authEmployer')
 
 router.get('/', authenticateAdmin, employeeController.getEmployee)
 router.get('/names', authenticateAdmin, employeeController.getEmployeeNames)
@@ -20,6 +21,7 @@ router.post('/sign-up', employeeController.signUpEmployee)
 
 router.patch('/updatePwd', authenticateEmployee, employeeController.updateEmployeePwd)
 router.patch('/changeVerfication', authenticateAdmin, employeeController.changeVerification)
+router.patch('/updateRating', authenticateEmployer, employeeController.updateRating)
 router.patch('/:username', authenticateEmployee, employeeController.updateEmployee)
 
 router.patch('/:username/uploadImage', authenticateEmployee, employeeController.uploadImage)

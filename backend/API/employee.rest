@@ -1,4 +1,4 @@
-@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbGVlbSIsInVzZXJ0eXBlIjoiRU1QTE9ZRUUiLCJpYXQiOjE2NzkwODE3NDEsImV4cCI6MTY3OTA4NTM0MX0.0hwvz2t0dtmwRyFtBoC7TrmL_d0S5JnhGhMfJZj6DCg
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbGVlbSIsInVzZXJ0eXBlIjoiRU1QTE9ZRUUiLCJpYXQiOjE2NzkxMjI0ODQsImV4cCI6MTY3OTEyNjA4NH0.E9LuWm367rE_l52foc6oSwyuJCqnCcHAEbnM0gVxEog
 @REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJ1c2VydHlwZSI6IkFETUlOIiwiaWF0IjoxNjc4OTIyNTE1LCJleHAiOjE2Nzg5MjYxMTV9.UGz6DDNNH-WtLWAlQ_nUGG7CwvSScL4vRh54vH7PJxI
 ###
 GET  http://localhost:3000/employee/
@@ -16,7 +16,7 @@ Authorization: Bearer {{ACCESS_TOKEN}}
 GET  http://localhost:3000/employee/verified
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
-GET  http://localhost:3000/employee/find?name=Owais
+GET  http://localhost:3000/employee/find?name=Saleem
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
 GET  http://localhost:3000/employee/saleem

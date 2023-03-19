@@ -367,6 +367,34 @@ const changeVerification = async (req, res) => {
     }
 }
 
+const updateRating = async (req, res) => {
+    const { username, rating } = req.body;
+    if (!username) return res.sendStatus(400);
+    if (!rating) return res.sendStatus(400)
+    const rating_float = parseFloat(rating)
+    if (rating_float >= 5 || rating_float <= 0) return res.status(400).send("Invalid Rating")
+
+    try {
+        const result = await pool.query(employeeQueries.getRating, [username])
+        if (!result.rowCount) {
+            return res.sendStatus(404);
+        }
+
+        const db_rating = result.rows[0].rating
+
+        const new_rating = (db_rating + rating)/2
+
+        await pool.query(employeeQueries.updateRating, [new_rating, username])
+
+        res.sendStatus(200)
+
+    }
+    catch (err) {
+        console.log(err)
+        res.sendStatus(500);
+    }
+}
+
 
 
 module.exports = {
@@ -390,5 +418,7 @@ module.exports = {
 
     uploadCNIC,
     getCNIC,
-    changeVerification
+    changeVerification,
+
+    updateRating
 }
