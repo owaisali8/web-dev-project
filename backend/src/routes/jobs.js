@@ -13,12 +13,12 @@ router.get('/uncompletedJobs', authToken, jobController.getUncompletedJobs)
 router.get('/:username/myJobs', authenticateEmployer, jobController.getEmployerJobs)
 router.get('/:username/myAppliedJobs', authenticateEmployee, jobController.getEmployeeAppliedJobs)
 
-router.delete('/:username/:job_id', authenticateEmployer, jobController.deleteJobByID)
+router.delete('/:job_id', authenticateEmployer, jobController.deleteJobByID)
 
-router.post('/createJob', authenticateEmployer, jobController.createJob)
 router.post('/applyForJob', authenticateEmployee, jobController.applyForJob)
+router.post('/', authenticateEmployer, jobController.createJob)
 
-router.patch('/updateJob', authenticateEmployer, jobController.updateJob)
+router.patch('/:job_id', authenticateEmployer, jobController.updateJob)
 
 
 module.exports = router

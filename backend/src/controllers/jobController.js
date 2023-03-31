@@ -100,10 +100,9 @@ const getEmployeeAppliedJobs = async (req, res) => {
 }
 
 const deleteJobByID = async (req, res) => {
-    const username = req.params.username
+
     const id = parseInt(req.params.job_id)
-    if (!username || !id) return res.sendStatus(404)
-    if (username != req.user.username) return res.sendStatus(403)
+    if (!id) return res.sendStatus(404)
     try {
         await pool.query(jobQueries.deleteJobByID, [id])
         res.sendStatus(200)
@@ -161,7 +160,8 @@ const updateJob = async (req, res) => {
         return res.status(400).send(err.details[0].message)
     }
 
-    const { job_id, title, description, job_type, salary, completed } = req.body
+    const job_id = req.params.job_id;
+    const { title, description, job_type, salary, completed } = req.body
 
     try {
         const result = await pool.query(jobQueries.getJobByID, [parseInt(job_id)])

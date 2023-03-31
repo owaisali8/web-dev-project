@@ -10,7 +10,6 @@ const jobSchema = Joi.object({
 
 
 const jobUpdateSchema = Joi.object({
-    job_id: Joi.number().required(),
     title: Joi.string().min(3).required(),
     description: Joi.string().min(3).required(),
     job_type: Joi.string().min(3).required(),

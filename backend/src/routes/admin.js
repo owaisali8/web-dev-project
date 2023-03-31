@@ -13,8 +13,8 @@ router.get('/:username', authenticateAdmin, adminController.getAdminByUsername)
 router.delete('/:username', authenticateAdmin, adminController.deleteAdminByUsername)
 
 router.post('/login', adminController.loginAdmin)
-router.post('/sign-up', adminController.signUpAdmin)
 router.post('/refreshToken', authenticateAdminRefresh, adminController.refreshAdminToken)
+router.post('/', adminController.signUpAdmin)
 //logout will del refreshTOken from frontend
 
 router.patch('/updatePwd', authenticateAdmin, adminController.updateAdminPwd)

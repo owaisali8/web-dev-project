@@ -14,7 +14,7 @@ router.get('/:username', authToken, employerController.getEmployerByUsername)
 
 router.delete('/:username', authenticateEmployer, employerController.deleteEmployerByUsername)
 
-router.post('/sign-up', employerController.signUpEmployer)
+router.post('/', employerController.signUpEmployer) //Create new Employer
 
 router.patch('/updatePwd', authenticateEmployer, employerController.updateEmployerPwd)
 router.patch('/:username', authenticateEmployer, employerController.updateEmployer)
