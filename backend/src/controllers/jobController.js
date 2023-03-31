@@ -71,9 +71,10 @@ const getUncompletedJobs = async (req, res) => {
 
 const getEmployerJobs = async (req, res) => {
     const username = req.params.username
-    if (!username) return res.sendStatus(400)
+    const userId = req.user.userId;
+    if (!username || !userId) return res.sendStatus(400)
     try {
-        const result = await pool.query(jobQueries.getEmployerJobs, [username]);
+        const result = await pool.query(jobQueries.getEmployerJobs, [userId]);
         const data = result.rows
         res.status(200).json(data)
     }
@@ -85,9 +86,10 @@ const getEmployerJobs = async (req, res) => {
 
 const getEmployeeAppliedJobs = async (req, res) => {
     const username = req.params.username
+    const userId = req.user.userId;
     if (!username) return res.sendStatus(400)
     try {
-        const result = await pool.query(jobQueries.getEmployeeAppliedJobs, [username]);
+        const result = await pool.query(jobQueries.getEmployeeAppliedJobs, [userId]);
         const data = result.rows
         res.status(200).json(data)
     }

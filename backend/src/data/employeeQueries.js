@@ -5,6 +5,7 @@ const getUnverifiedEmployees = "SELECT * FROM EMPLOYEE WHERE VERIFIED = FALSE";
 const getVerifiedEmployees = "SELECT * FROM EMPLOYEE WHERE VERIFIED = TRUE";
 const getEmployeeByName = "SELECT * FROM EMPLOYEE WHERE NAME LIKE $1";
 const getEmployeeByUsername = 'SELECT * FROM EMPLOYEE WHERE USERNAME = $1';
+const getIdFromUsername = "SELECT EMPLOYEE_ID FROM EMPLOYEE WHERE USERNAME = $1";
 
 const checkEmployeeByPhone = "SELECT * FROM EMPLOYEE WHERE PHONE = $1";
 const checkEmployeeByEmail = "SELECT * FROM EMPLOYEE WHERE EMAIL = $1";
@@ -39,6 +40,7 @@ module.exports = {
     getVerifiedEmployees,
     getEmployeeByName,
     getEmployeeByUsername,
+    getIdFromUsername,
 
     checkEmployeeByPhone,
     checkEmployeeByEmail,
