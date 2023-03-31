@@ -1,5 +1,6 @@
 require('dotenv').config()
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { ADMIN } = require('../config/constants');
 
 const authUserRefresh = (req, res, next) => {
     const token = req.body.refreshToken
@@ -13,7 +14,7 @@ const authUserRefresh = (req, res, next) => {
             return res.sendStatus(403)
         }
 
-        if (user.usertype == 'ADMIN') {
+        if (user.usertype == ADMIN) {
             return res.sendStatus(403)
         }
         req.user = user

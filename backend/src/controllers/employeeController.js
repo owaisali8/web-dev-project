@@ -5,6 +5,7 @@ const loginQueries = require('../data/loginQueries')
 
 const bcrypt = require('bcryptjs')
 const employeeValidator = require('../validators/employeeValidator')
+const { USERNAME_TAKEN_ERR, PHONE_EMAIL_ERR, LOGIN_ERR_MSG } = require('../config/constants')
 
 const getEmployee = async (req, res) => {
     try {
@@ -143,14 +144,14 @@ const signUpEmployee = async (req, res) => {
     const data = await pool.query(loginQueries.getUserLogin, [username]);
 
     if (data.rowCount) {
-        return res.status(400).send("Username is already taken.")
+        return res.status(400).send(USERNAME_TAKEN_ERR)
     }
 
     const phoneDB = await pool.query(employeeQueries.checkEmployeeByPhone, [phone])
     const emailDB = await pool.query(employeeQueries.checkEmployeeByEmail, [email])
 
     if (phoneDB.rowCount || emailDB.rowCount) {
-        return res.status(400).send("Phone or Email is already in use.")
+        return res.status(400).send(PHONE_EMAIL_ERR)
     }
 
     try {
@@ -193,7 +194,7 @@ const updateEmployeePwd = async (req, res) => {
     const hashedDBPwd = data.rows[0].password
 
     if (!await bcrypt.compare(oldPassword, hashedDBPwd)) {
-        return res.status(404).send("Incorrect Username or Password.")
+        return res.status(404).send(LOGIN_ERR_MSG)
     }
 
     const newhashedPwd = await bcrypt.hash(newPassword, 10)
@@ -239,13 +240,13 @@ const updateEmployee = async (req, res) => {
 
     if (phoneDB.rowCount) {
         if (phone != phoneDB.rows[0].phone) {
-            return res.status(400).send("Phone or Email is already in use.")
+            return res.status(400).send(PHONE_EMAIL_ERR)
         }
     }
 
     if (emailDB.rowCount) {
         if (email != emailDB.rows[0].email) {
-            return res.status(400).send("Phone or Email is already in use.")
+            return res.status(400).send(PHONE_EMAIL_ERR)
         }
     }
 
@@ -382,7 +383,7 @@ const updateRating = async (req, res) => {
 
         const db_rating = result.rows[0].rating
 
-        const new_rating = (db_rating + rating)/2
+        const new_rating = (db_rating + rating) / 2
 
         await pool.query(employeeQueries.updateRating, [new_rating, username])
 

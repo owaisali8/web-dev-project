@@ -1,5 +1,6 @@
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
+const { EMPLOYER } = require('../config/constants');
 
 const authenticateEmployer = (req, res, next) => {
     const authHeader = req.headers['authorization']
@@ -13,7 +14,7 @@ const authenticateEmployer = (req, res, next) => {
             return res.sendStatus(403)
         }
         
-        if (user.usertype === 'EMPLOYEE') {
+        if (user.usertype === EMPLOYER) {
             return res.sendStatus(403)
         }
 

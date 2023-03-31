@@ -7,7 +7,8 @@ const adminQueries = require('../data/adminQueries')
 const loginQueries = require('../data/loginQueries')
 
 const adminValidator = require('../validators/adminValidator')
-const { generateAccessToken, generateRefreshToken } = require('../auth/auth')
+const { generateAccessToken, generateRefreshToken } = require('../auth/auth');
+const { ADMIN, LOGIN_ERR_MSG, USERNAME_TAKEN_ERR, PHONE_EMAIL_ERR } = require('../config/constants');
 
 
 const getAdmin = (req, res) => {
@@ -118,31 +119,31 @@ const deleteAdminByUsername = async (req, res) => {
 const loginAdmin = async (req, res) => {
     const { username, password } = req.body
     if (!username || !password) {
-        res.status(404).send("Incorrect Username or Password.")
+        res.status(404).send(LOGIN_ERR_MSG);
         return
     }
 
     const data = await pool.query(loginQueries.getUserPassword, [username])
 
     if (!data.rowCount) {
-        res.status(404).send("Incorrect Username or Password.")
+        res.status(404).send(LOGIN_ERR_MSG);
         return
     }
 
     const hashedDBPwd = data.rows[0].password
 
     if (!hashedDBPwd) {
-        res.status(404).send("Incorrect Username or Password.")
+        res.status(404).send(LOGIN_ERR_MSG);
         return
     }
 
     if (await bcrypt.compare(password, hashedDBPwd)) {
-        const user = { username: username, usertype: 'ADMIN' }
+        const user = { username: username, usertype: ADMIN }
         const accessToken = generateAccessToken(user)
         const refreshToken = generateRefreshToken(user)
         res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
     } else {
-        res.status(404).send("Incorrect Username or Password.")
+        res.status(404).send(LOGIN_ERR_MSG);
     }
 }
 
@@ -159,7 +160,7 @@ const signUpAdmin = async (req, res) => {
     const data = await pool.query(loginQueries.getUserLogin, [username]);
 
     if (data.rowCount) {
-        res.status(400).send("Username is already taken.")
+        res.status(400).send(USERNAME_TAKEN_ERR);
         return
     }
 
@@ -167,7 +168,7 @@ const signUpAdmin = async (req, res) => {
     const emailDB = await pool.query(adminQueries.checkAdminByEmail, [email])
 
     if (phoneDB.rowCount || emailDB.rowCount) {
-        res.status(400).send("Phone or Email is already in use.")
+        res.status(400).send(PHONE_EMAIL_ERR)
         return
     }
 
@@ -228,13 +229,13 @@ const updateAdmin = async (req, res) => {
 
     if (phoneDB.rowCount) {
         if (phone != phoneDB.rows[0].phone) {
-            return res.status(400).send("Phone or Email is already in use.")
+            return res.status(400).send(PHONE_EMAIL_ERR)
         }
     }
 
     if (emailDB.rowCount) {
         if (email != emailDB.rows[0].email) {
-            return res.status(400).send("Phone or Email is already in use.")
+            return res.status(400).send(PHONE_EMAIL_ERR)
         }
     }
 
@@ -272,7 +273,7 @@ const updateAdminPwd = async (req, res) => {
     const hashedDBPwd = data.rows[0].password
 
     if (!await bcrypt.compare(oldPassword, hashedDBPwd)) {
-        return res.status(404).send("Incorrect Username or Password.")
+        return res.status(404).send(LOGIN_ERR_MSG)
     }
 
     const newhashedPwd = await bcrypt.hash(newPassword, 10)

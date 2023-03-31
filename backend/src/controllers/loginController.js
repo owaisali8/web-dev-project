@@ -5,35 +5,37 @@ const loginQueries = require('../data/loginQueries');
 const employerQueries = require('../data/employerQueries')
 const employeeQueries = require('../data/employeeQueries')
 const { generateAccessToken, generateRefreshToken } = require('../auth/auth')
+const { EMPLOYER, EMPLOYEE, LOGIN_ERR_MSG } = require('../config/constants');
 
 const login = async (req, res) => {
     const { username, password } = req.body
     if (!username || !password) {
-        res.status(404).send("Incorrect Username or Password.")
+        res.status(404).send(LOGIN_ERR_MSG)
         return
     }
 
     const data = await pool.query(loginQueries.getUserLogin, [username])
 
     if (!data.rowCount) {
-        res.status(404).send("Incorrect Username or Password.")
+        res.status(404).send(LOGIN_ERR_MSG)
         return
     }
 
     const hashedDBPwd = data.rows[0].password
 
     if (!hashedDBPwd) {
-        res.status(404).send("Incorrect Username or Password.")
+        res.status(404).send(LOGIN_ERR_MSG)
         return
     }
 
     if (await bcrypt.compare(password, hashedDBPwd)) {
         const usertype = data.rows[0].user_type
         var userId = 0;
-        if (usertype == "EMPLOYER") {
+        if (usertype == EMPLOYER) {
             const result = await pool.query(employerQueries.getIdFromUsername, [username]);
             userId = result.rows[0].employer_id;
-        } else if (usertype == "EMPLOYEE") {
+
+        } else if (usertype == EMPLOYEE) {
             const result = await pool.query(employeeQueries.getIdFromUsername, [username]);
             userId = result.rows[0].employee_id;
         }
@@ -43,7 +45,7 @@ const login = async (req, res) => {
         const refreshToken = generateRefreshToken(user)
         res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
     } else {
-        res.status(404).send("Incorrect Username or Password.")
+        res.status(404).send(LOGIN_ERR_MSG)
     }
 };
 
