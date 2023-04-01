@@ -14,7 +14,7 @@ const jobUpdateSchema = Joi.object({
     description: Joi.string().min(3).required(),
     job_type: Joi.string().min(3).required(),
     salary: Joi.number().min(2).required(),
-    completed: Joi.bool().required()
+    completed: Joi.boolean().required()
 });
 
 module.exports = {

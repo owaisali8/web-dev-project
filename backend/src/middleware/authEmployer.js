@@ -14,7 +14,7 @@ const authenticateEmployer = (req, res, next) => {
             return res.sendStatus(403)
         }
         
-        if (user.usertype === EMPLOYER) {
+        if (user.usertype != EMPLOYER) {
             return res.sendStatus(403)
         }
 
