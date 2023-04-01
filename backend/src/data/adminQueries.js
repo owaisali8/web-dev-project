@@ -3,6 +3,7 @@ const getAllAdminsNames = "SELECT USERNAME, NAME FROM ADMIN";
 const getAdminByUsername = 'SELECT * FROM ADMIN WHERE USERNAME = $1';
 const getAdminByID = 'SELECT * FROM ADMIN WHERE ADMIN_ID = $1';
 const getAdminByName = "SELECT * FROM ADMIN WHERE NAME LIKE $1"
+const getAdminByPhone = "SELECT * FROM ADMIN WHERE PHONE = $1";
 const getImage = "SELECT PROFILE_PIC FROM ADMIN WHERE USERNAME = $1"
 
 const checkAdminByPhone = "SELECT * FROM ADMIN WHERE PHONE = $1"
@@ -23,6 +24,7 @@ module.exports = {
     getAdminByID,
     getAdminByUsername,
     getAdminByName,
+    getAdminByPhone,
     getImage,
     checkAdminByPhone,
     checkAdminByEmail,

@@ -8,6 +8,18 @@ const employeeValidator = require('../validators/employeeValidator')
 const { USERNAME_TAKEN_ERR, PHONE_EMAIL_ERR, LOGIN_ERR_MSG } = require('../config/constants')
 
 const getEmployee = async (req, res) => {
+    const id = parseInt(req.query.id);
+    const phone = req.query.phone;
+    if (id) {
+        const result = await pool.query(employeeQueries.getEmployeeByID, [id]);
+        const data = result.rows
+        return res.status(200).json(data);
+    } else if (phone) {
+        const result = await pool.query(employeeQueries.getEmployeeByPhone, [phone]);
+        const data = result.rows
+        return res.status(200).json(data);
+    }
+    
     try {
         const result = await pool.query(employeeQueries.getAllEmployees)
         const data = result.rows

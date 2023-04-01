@@ -11,16 +11,28 @@ const { generateAccessToken, generateRefreshToken } = require('../auth/auth');
 const { ADMIN, LOGIN_ERR_MSG, USERNAME_TAKEN_ERR, PHONE_EMAIL_ERR } = require('../config/constants');
 
 
-const getAdmin = (req, res) => {
-    pool.query(adminQueries.getAllAdmins, (err, result) => {
-        if (err) {
-            console.log(err)
-            res.status(500).send()
-        }
-
+const getAdmin = async (req, res) => {
+    const id = parseInt(req.query.id);
+    const phone = req.query.phone;
+    if (id) {
+        const result = await pool.query(adminQueries.getAdminByID, [id]);
         const data = result.rows
-        res.status(200).json(data)
-    })
+        return res.status(200).json(data);
+    } else if (phone) {
+        const result = await pool.query(adminQueries.getAdminByPhone, [phone]);
+        const data = result.rows
+        return res.status(200).json(data);
+    } else {
+        pool.query(adminQueries.getAllAdmins, (err, result) => {
+            if (err) {
+                console.log(err)
+                res.status(500).send()
+            }
+
+            const data = result.rows
+            res.status(200).json(data)
+        })
+    }
 }
 
 const getAdminNames = async (req, res) => {

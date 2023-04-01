@@ -8,6 +8,18 @@ const employeeQueries = require('../data/employeeQueries')
 
 
 const getAllJobs = async (req, res) => {
+    const id = parseInt(req.query.id);
+    const job_type = req.query.job_type;
+    if (id) {
+        const result = await pool.query(jobQueries.getJobByID, [id]);
+        const data = result.rows
+        return res.status(200).json(data);
+    } else if (job_type) {
+        const result = await pool.query(jobQueries.getJobsByJobType, [job_type]);
+        const data = result.rows
+        return res.status(200).json(data);
+    }
+
     try {
         const result = await pool.query(jobQueries.getAllJobs)
         const data = result.rows

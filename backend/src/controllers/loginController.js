@@ -30,7 +30,7 @@ const login = async (req, res) => {
 
     if (await bcrypt.compare(password, hashedDBPwd)) {
         const usertype = data.rows[0].user_type
-        var userId = 0;
+        let userId = 0;
         if (usertype == EMPLOYER) {
             const result = await pool.query(employerQueries.getIdFromUsername, [username]);
             userId = result.rows[0].employer_id;

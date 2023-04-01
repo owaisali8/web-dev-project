@@ -9,6 +9,18 @@ const { USERNAME_TAKEN_ERR, PHONE_EMAIL_ERR, LOGIN_ERR_MSG } = require('../confi
 
 
 const getEmployer = async (req, res) => {
+    const id = parseInt(req.query.id);
+    const phone = req.query.phone;
+    if (id){
+        const result = await pool.query(employerQueries.getEmployerByID, [id]);
+        const data = result.rows
+        return res.status(200).json(data);
+    } else if (phone) {
+        const result = await pool.query(employerQueries.getEmployerByPhone, [phone]);
+        const data = result.rows
+        return res.status(200).json(data);
+    } 
+    
     try {
         const result = await pool.query(employerQueries.getAllEmployers)
         const data = result.rows
