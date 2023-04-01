@@ -19,7 +19,7 @@ Authorization: Bearer {{ACCESS_TOKEN}}
 DELETE http://localhost:3000/employer/user
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
-POST http://localhost:3000/employer/sign-up
+POST http://localhost:3000/employer/
 Content-Type: application/json
 
 {

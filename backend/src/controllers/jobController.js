@@ -186,6 +186,21 @@ const updateJob = async (req, res) => {
     }
 }
 
+const getPagedJobs = async (req, res) => {
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
+    const offset = (page - 1) * limit
+    try {
+        const result = await pool.query(jobQueries.getPagedJobs,[offset, limit]);
+        const data = result.rows
+        res.status(200).json(data)
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500)
+    }
+
+}
+
 module.exports = {
     getAllJobs,
     getJobById,
@@ -193,6 +208,7 @@ module.exports = {
     getUncompletedJobs,
     getEmployerJobs,
     getEmployeeAppliedJobs,
+    getPagedJobs,
 
     deleteJobByID,
 

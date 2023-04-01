@@ -13,6 +13,8 @@ router.get('/uncompletedJobs', authToken, jobController.getUncompletedJobs)
 router.get('/:username/myJobs', authenticateEmployer, jobController.getEmployerJobs)
 router.get('/:username/myAppliedJobs', authenticateEmployee, jobController.getEmployeeAppliedJobs)
 
+router.get('/paged', authToken, jobController.getPagedJobs)
+
 router.delete('/:job_id', authenticateEmployer, jobController.deleteJobByID)
 
 router.post('/applyForJob', authenticateEmployee, jobController.applyForJob)

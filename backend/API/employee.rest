@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/employee/sign-up
+POST http://localhost:3000/employee/
 Content-Type: application/json
 
 {
