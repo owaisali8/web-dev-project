@@ -2,10 +2,11 @@ const Sequelize = require('sequelize');
 const database = require('../config/orm');
 
 const Login = database.define(
-    'Login',
+    'login',
     {
         username: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            primaryKey: true
         },
         password: {
             type: Sequelize.TEXT
@@ -14,7 +15,7 @@ const Login = database.define(
             type: Sequelize.TEXT
         }
     },
-    { timestamps: false, tableName: 'Login' }
+    { timestamps: false, tableName: 'login', freezeTablename: true}
 );
 
 Login.readAll = async (req, res) => {
