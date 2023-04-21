@@ -8,9 +8,7 @@ function AdminLogin() {
     const [password, setPassword] = useState('')
     const [rememberMe, setRememberMe] = useState(false)
 
-
     return (
-        // https://source.unsplash.com/fY8Jr4iuPQM/800x800
         <center>
             <Box
                 sx={{
@@ -23,7 +21,7 @@ function AdminLogin() {
                     },
                 }}
             >
-                <Paper elevation={5}>
+                <Paper elevation={20}>
                     <Stack direction="column"
                         justifyContent="center"
                         alignItems="center"
