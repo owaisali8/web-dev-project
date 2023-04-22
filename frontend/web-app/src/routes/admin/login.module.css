@@ -1,5 +1,6 @@
-body, html {
+.bg {
   height: 100%;
+  width: 100%;
   background-image: url("https://source.unsplash.com/VLPUm5wP5Z0/");
   background-repeat: no-repeat;
   background-position: center;

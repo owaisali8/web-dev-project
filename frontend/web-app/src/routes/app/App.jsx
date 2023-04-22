@@ -1,33 +1,33 @@
-import { useState } from 'react'
-import reactLogo from '../../assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Typography, Box, Stack, Card } from '@mui/material'
+import ResponsiveAppBar from '../../components/ResponsiveAppBar'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
+      <ResponsiveAppBar />
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <Typography variant='h1'>Kaam Daam</Typography>
+        <Typography variant='subtitle1'>App that connects service providers with customers in need.</Typography>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <Box sx={{ m: 5 }} />
+      <div>
+        <Stack direction="row" spacing={5} justifyContent="center" alignItems="center">
+          <Card sx={{ minWidth: 150, minHeight: 120}}>
+          <Box sx={{ m: 6 }} />
+            <center><Typography varient='h4' >Connect</Typography></center>
+          </Card>
+          <Card sx={{ minWidth: 150, minHeight: 120}}>
+          <Box sx={{ m: 6 }} />
+            <center><Typography varient='h4' >Find</Typography></center>
+          </Card>
+          <Card sx={{ minWidth: 150, minHeight: 120}}>
+          <Box sx={{ m: 6 }} />
+            <center><Typography varient='h4' >Pay</Typography></center>
+          </Card>
+        </Stack>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
