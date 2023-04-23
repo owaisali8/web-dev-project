@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import classes from './login.module.css'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+
 import { Button, Stack, TextField, Paper, Box, Typography, Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 
 
@@ -8,6 +10,7 @@ function AdminLogin() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [rememberMe, setRememberMe] = useState(false)
+    const navigate = useNavigate()
 
     const handleUsername = e => setUsername(e.target.value)
     const handlePassword = e => setPassword(e.target.value)
@@ -29,10 +32,12 @@ function AdminLogin() {
 
         axios.request(config)
             .then((response) => {
+                localStorage.setItem('username', username)
                 localStorage.setItem('accessToken', response.data['accessToken'])
                 localStorage.setItem('refreshToken', response.data['refreshToken'])
                 localStorage.setItem('rememberMe', rememberMe)
                 console.log('Logged In');
+                navigate('/admin/portal', { replace: true })
             })
             .catch((error) => {
                 console.log(error);
@@ -40,7 +45,18 @@ function AdminLogin() {
 
     }
 
+    useEffect(() => {
+        const check = localStorage.getItem('rememberMe')
+        if (check === 'false') {
+            return () => localStorage.clear()
+        } else if (check === 'true') {
+            navigate('/admin/portal', { replace: true })
+        }
+    }, [navigate])
+
+
     document.body.className = classes.bg
+    // TODO: Validation
     return (
         <>
             <center>
