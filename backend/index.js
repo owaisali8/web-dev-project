@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const fileUpload = require('express-fileupload');
 
 const PORT = process.env.PORT || 3000
@@ -15,6 +16,7 @@ const jobsRoute = require('./src/routes/jobs')
 
 connectDB()
 
+app.use(cors())
 app.use(express.json())
 app.use(fileUpload())
 

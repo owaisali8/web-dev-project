@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import classes from './login.module.css'
+import axios from 'axios'
 import { Button, Stack, TextField, Paper, Box, Typography, Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 
 
@@ -17,7 +18,26 @@ function AdminLogin() {
             username: username,
             password: password
         }
-        console.log(user);
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:3000/admin/login',
+            headers: {},
+            data: user
+        };
+
+        axios.request(config)
+            .then((response) => {
+                localStorage.setItem('accessToken', response.data['accessToken'])
+                localStorage.setItem('refreshToken', response.data['refreshToken'])
+                localStorage.setItem('rememberMe', rememberMe)
+                console.log('Logged In');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
     }
 
     document.body.className = classes.bg
