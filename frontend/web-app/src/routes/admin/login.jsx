@@ -4,12 +4,14 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Stack, TextField, Paper, Box, Typography, Checkbox, FormGroup, FormControlLabel } from '@mui/material';
+import { Alert } from '@mui/material';
 
 
 function AdminLogin() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [rememberMe, setRememberMe] = useState(false)
+    const [error, setError] = useState([false, ''])
     const navigate = useNavigate()
 
     const handleUsername = e => setUsername(e.target.value)
@@ -40,6 +42,7 @@ function AdminLogin() {
                 navigate('/admin/portal', { replace: true })
             })
             .catch((error) => {
+                setError([true, error.response.data])
                 console.log(error);
             });
 
@@ -56,7 +59,7 @@ function AdminLogin() {
 
 
     document.body.className = classes.bg
-    // TODO: Validation
+    
     return (
         <>
             <center>
@@ -79,12 +82,14 @@ function AdminLogin() {
                             <Box sx={{ m: 1 }} />
                             <Typography variant="h5"> Admin Login </Typography>
                             <Box sx={{ m: 2 }} />
-                            <TextField value={username} id="outlined-basic" label="Username" variant="outlined" onChange={handleUsername} />
-                            <TextField value={password} id="outlined-basic" label="Password" type="password" variant="outlined" onChange={handlePassword} />
+                            <TextField error={error[0]} value={username} id="outlined-basic" label="Username" variant="outlined" onChange={handleUsername} />
+                            <TextField error={error[0]} value={password} id="outlined-basic" label="Password" type="password" variant="outlined" onChange={handlePassword} />
                             <FormGroup>
                                 <FormControlLabel control={<Checkbox checked={rememberMe} onChange={handleRememberMe} />} label="Remember Me" />
                             </FormGroup>
                             <Button size="large" onClick={handleLogin}>Login</Button>
+                            <Box sx={{ m: 3 }} />
+                            {error[0] ? <Alert severity="error"> {error[1]} </Alert> : <></>}
                         </Stack>
                     </Paper>
                 </Box>

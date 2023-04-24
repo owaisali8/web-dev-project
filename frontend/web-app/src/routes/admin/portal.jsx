@@ -97,6 +97,16 @@ function AdminPortal() {
         navigate('/admin/login', { replace: true })
         window.location.reload(true)
     }
+
+    React.useEffect(() => {
+        const check = localStorage.getItem('rememberMe')
+        if (check === 'false' || !check) {
+            navigate('/admin/portal', { replace: true })
+            window.location.reload(true)
+            return () => localStorage.clear()
+        } 
+
+    }, [navigate])
     
    document.body.style.display = 'contents'
     const element = document.getElementById('root')
