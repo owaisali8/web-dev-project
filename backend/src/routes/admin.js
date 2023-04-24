@@ -21,6 +21,6 @@ router.patch('/updatePwd', authenticateAdmin, adminController.updateAdminPwd)
 router.patch('/:username', authenticateAdmin, adminController.updateAdmin)
 
 router.patch('/:username/uploadImage', authenticateAdmin, adminController.uploadImage)
-router.get('/:username/getImage', authenticateAdmin, adminController.getImage)
+router.get('/:username/getImage', adminController.getImage)
 
 module.exports = router
