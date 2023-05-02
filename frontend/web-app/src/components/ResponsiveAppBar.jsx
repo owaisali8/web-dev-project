@@ -9,9 +9,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import WorkIcon from '@mui/icons-material/Work';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Employer', 'Employee'];
 
 
 function ResponsiveAppBar() {
@@ -29,7 +29,7 @@ function ResponsiveAppBar() {
     <AppBar  position="fixed"  color='primary'>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }} />
+          <WorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }} />
           <Typography
             variant="h6"
             noWrap
@@ -38,14 +38,14 @@ function ResponsiveAppBar() {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              fontFamily: 'Calibri',
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Kaam Daam
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -84,7 +84,7 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
           <Typography
             variant="h5"
             noWrap
