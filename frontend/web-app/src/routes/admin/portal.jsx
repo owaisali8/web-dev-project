@@ -15,7 +15,7 @@ import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Button, Card, CardContent, Fab, Stack, TableFooter } from '@mui/material';
+import { Button, Card, CardContent, Fab, Stack, TableFooter, Tooltip } from '@mui/material';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -36,11 +36,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import axios from 'axios';
+import { fetchAndUpdateJobs, fetchAndUpdateProfile } from '../../api/api'
+//import axios from 'axios';
 //import { useNavigate } from 'react-router-dom';
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 // import Orders from './Orders';
+const APP_URL = import.meta.env.VITE_SERVER_URL;
 
 function Copyright(props) {
     return (
@@ -104,12 +106,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function AdminPortal() {
+
     const [open, setOpen] = React.useState(true);
     const [jobs, setJobs] = React.useState([]);
     const [profile, setProfile] = React.useState({});
     const [title, setTitle] = React.useState('Dashboard');
     //const navigate = useNavigate()
     const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const [dashboardPage, setDashboardPage] = React.useState(0);
+    const [rowsPerPageDashboard, setRowsPerPageDashboard] = React.useState(3);
+
     const username = localStorage.getItem('username')
     const accessToken = localStorage.getItem('accessToken')
     const refreshToken = localStorage.getItem('refreshToken')
@@ -122,7 +130,13 @@ function AdminPortal() {
         setPage(newPage);
     };
 
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0); // Reset to the first page when changing rows per page
+    };
+
     const handleLogout = () => {
+        sessionStorage.clear()
         localStorage.clear()
         window.location = '/admin/login'
     }
@@ -164,51 +178,60 @@ function AdminPortal() {
                         }}
                     >
                         <Typography component="div" variant="h5">Recent Jobs:</Typography>
+                        <Box sx={{ m: 1 }} />
                         <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Job ID</TableCell>
-                            <TableCell align="right">Title</TableCell>
-                            <TableCell align="right">Description</TableCell>
-                            <TableCell align="right">Completed</TableCell>
-                            <TableCell align="right">Date Posted</TableCell>
-                            <TableCell align="right">Employer ID</TableCell>
-                            <TableCell align="right">Job Type</TableCell>
-                            <TableCell align="right">Salary</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {jobs.map((job) => ( 
-                            <TableRow
-                                key={job.job_id}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">{job.job_id} </TableCell>
-                                <TableCell align="right">{job.title}</TableCell>
-                                <TableCell align="right">{job.description}</TableCell>
-                                <TableCell align="right">{job.completed ? <CheckIcon /> : <CloseIcon />}</TableCell>
-                                <TableCell align="right">{job.date_posted}</TableCell>
-                                <TableCell align="right">{job.employer_id}</TableCell>
-                                <TableCell align="right">{job.job_type}</TableCell>
-                                <TableCell align="right">{job.salary}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TablePagination
-                                count={jobs.length}
-                                rowsPerPageOptions={[]}
-                                rowsPerPage={1}
-                                page={page}
-                                onPageChange={handleChangePage}
-                            />
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-            </TableContainer>
-            
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Job ID</TableCell>
+                                        <TableCell align="right">Title</TableCell>
+                                        <TableCell align="right">Description</TableCell>
+                                        <TableCell align="right">Completed</TableCell>
+                                        <TableCell align="right">Date Posted</TableCell>
+                                        <TableCell align="right">Employer ID</TableCell>
+                                        <TableCell align="right">Job Type</TableCell>
+                                        <TableCell align="right">Salary</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {jobs
+                                        .slice()
+                                        .sort((a, b) => b.job_id - a.job_id)
+                                        .slice(dashboardPage * rowsPerPageDashboard, dashboardPage * rowsPerPageDashboard + rowsPerPageDashboard)
+                                        .map((job) => (
+                                            <TableRow
+                                                key={job.job_id}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell component="th" scope="row">{job.job_id} </TableCell>
+                                                <TableCell align="right">{job.title}</TableCell>
+                                                <TableCell align="right">{job.description}</TableCell>
+                                                <TableCell align="right">{job.completed ? <CheckIcon /> : <CloseIcon />}</TableCell>
+                                                <TableCell align="right">{job.date_posted}</TableCell>
+                                                <TableCell align="right">{job.employer_id}</TableCell>
+                                                <TableCell align="right">{job.job_type}</TableCell>
+                                                <TableCell align="right">{job.salary}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                </TableBody>
+                                <TableFooter>
+                                    <TableRow>
+                                        <TablePagination
+                                            count={jobs.length}
+                                            rowsPerPageOptions={[3, 5]}
+                                            rowsPerPage={rowsPerPageDashboard}
+                                            page={dashboardPage}
+                                            onPageChange={(event, newPage) => { setDashboardPage(newPage) }}
+                                            onRowsPerPageChange={(event) => {
+                                                setRowsPerPageDashboard(parseInt(event.target.value, 10))
+                                                setDashboardPage(0);
+                                            }}
+                                        />
+                                    </TableRow>
+                                </TableFooter>
+                            </Table>
+                        </TableContainer>
+
                     </Paper>
                 </Grid>
                 <Grid item xs={12} md={4} lg={3}>
@@ -221,17 +244,17 @@ function AdminPortal() {
                         }}
                     >
                         <Box sx={{ m: 2 }} />
-                        <Typography component="div" variant="h5">Jobs: {jobs.length}</Typography>
+                        <Typography component="div" variant="h6">Jobs: {jobs.length}</Typography>
                         <Box sx={{ m: 2 }} />
-                        <Typography component="div" variant="h5">Completed Jobs: {jobs.filter((obj) => obj.completed).length}</Typography>
+                        <Typography component="div" variant="h6">Completed Jobs: {jobs.filter((obj) => obj.completed).length}</Typography>
                         <Box sx={{ m: 2 }} />
-                        <Typography component="div" variant="h5">Uncompleted Jobs: {jobs.filter((obj) => !obj.completed).length}</Typography>
+                        <Typography component="div" variant="h6">Uncompleted Jobs: {jobs.filter((obj) => !obj.completed).length}</Typography>
                         <Box sx={{ m: 2 }} />
-                        <Typography component="div" variant="h5">Employees: {jobs.length}</Typography>
+                        <Typography component="div" variant="h6">Employees: {jobs.length}</Typography>
                         <Box sx={{ m: 2 }} />
-                        <Typography component="div" variant="h5">Employers: {jobs.length}</Typography>
+                        <Typography component="div" variant="h6">Employers: {jobs.length}</Typography>
                         <Box sx={{ m: 2 }} />
-                        <Typography component="div" variant="h5">Admin: {jobs.length}</Typography>
+                        <Typography component="div" variant="h6">Admin: {jobs.length}</Typography>
                     </Paper>
                 </Grid>
                 {/* Recent Orders */}
@@ -248,7 +271,8 @@ function AdminPortal() {
         <>
             <Card>
                 <CardContent align='left'>
-                    <img src={'http://localhost:3000/admin/' + username + '/getImage'} height={200} width={200} align='right' />
+                    <img src={APP_URL + '/admin/' + username + '/getImage'} height={200} width={200}
+                        align='right' style={{ borderRadius: "50%" }} />
                     <Typography sx={{ fontSize: 25 }}>
                         {profile.name}
                     </Typography>
@@ -301,7 +325,7 @@ function AdminPortal() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {jobs.map((job) => (
+                        {jobs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((job) => (
                             <TableRow
                                 key={job.job_id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -323,10 +347,11 @@ function AdminPortal() {
                         <TableRow>
                             <TablePagination
                                 count={jobs.length}
-                                rowsPerPageOptions={[]}
-                                rowsPerPage={6}
+                                rowsPerPageOptions={[10, 15]}
+                                rowsPerPage={rowsPerPage}
                                 page={page}
                                 onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
                             />
                         </TableRow>
                     </TableFooter>
@@ -334,12 +359,28 @@ function AdminPortal() {
             </TableContainer>
             <Box sx={{ m: 2 }} />
             <Stack direction="row" spacing={2}>
-                <Fab color="primary" align="right" aria-label="add" >
-                    <AddIcon />
-                </Fab>
-                <Fab color="primary" align="right" aria-label="add" >
-                    <SearchIcon />
-                </Fab>
+                <Tooltip title="Add" arrow>
+                    <Fab color="primary" align="right" aria-label="add"
+                        sx={{
+                            bgcolor: 'black', '&:hover': {
+                                color: 'black',
+                                backgroundColor: 'white',
+                            }
+                        }}>
+                        <AddIcon />
+                    </Fab>
+                </Tooltip>
+                <Tooltip title="Search" arrow>
+                    <Fab color="primary" align="right" aria-label="add"
+                        sx={{
+                            bgcolor: 'black', '&:hover': {
+                                color: 'black',
+                                backgroundColor: 'white',
+                            }
+                        }}>
+                        <SearchIcon />
+                    </Fab>
+                </Tooltip>
             </Stack>
         </>
     )
@@ -353,46 +394,14 @@ function AdminPortal() {
 
     }, [])
 
-    React.useEffect(() => { // For loading admin data
+    React.useEffect(() => { // For loading data
 
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'http://localhost:3000/admin/' + username,
-            headers: {
-                'Authorization': 'Bearer ' + accessToken
-            }
-        };
-
-        axios.request(config)
-            .then((response) => {
-                setProfile(response.data)
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        console.log("First Fetch");
+        fetchAndUpdateProfile(username, accessToken, setProfile);
+        fetchAndUpdateJobs(accessToken, setJobs);
 
     }, [accessToken, username])
 
-    React.useEffect(() => { // For Loading Jobs Data
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'http://localhost:3000/jobs/',
-            headers: {
-                'Authorization': 'Bearer ' + accessToken
-            }
-        };
-
-        axios.request(config)
-            .then((response) => {
-                setJobs(response.data)
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-    }, [accessToken])
 
     document.body.style.display = 'contents'
     const element = document.getElementById('root')
@@ -418,7 +427,7 @@ function AdminPortal() {
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
-                <AppBar position="absolute" open={open}>
+                <AppBar position="absolute" open={open} sx={{ bgcolor: 'black' }}>
                     <Toolbar
                         sx={{
                             pr: '24px', // keep right padding when drawer closed
