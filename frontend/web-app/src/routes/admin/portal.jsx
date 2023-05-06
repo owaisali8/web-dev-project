@@ -118,9 +118,9 @@ function AdminPortal() {
     const [dashboardPage, setDashboardPage] = React.useState(0);
     const [rowsPerPageDashboard, setRowsPerPageDashboard] = React.useState(3);
 
-    const username = localStorage.getItem('username')
-    const accessToken = localStorage.getItem('accessToken')
-    const refreshToken = localStorage.getItem('refreshToken')
+    const [username, setUsername] = React.useState('')
+    const [accessToken, setAccessToken] = React.useState('')
+    const [refreshToken, setRefreshToken] = React.useState('')
 
     const toggleDrawer = () => {
         setOpen(!open);
@@ -387,19 +387,29 @@ function AdminPortal() {
 
     React.useEffect(() => { // For checking whether user has logged in or not?
         const check = localStorage.getItem('rememberMe')
-        if (!check) {
+        const check2 = sessionStorage.getItem('rememberMe')
+        if (!check && !check2) {
             window.location = '/admin/login'
             return () => localStorage.clear()
+        } else if (check) {
+            setUsername(localStorage.getItem('username'))
+            setAccessToken(localStorage.getItem('accessToken'))
+            setRefreshToken(localStorage.getItem('refreshToken'))
+        } else if (check2) {
+            setUsername(sessionStorage.getItem('username'))
+            setAccessToken(sessionStorage.getItem('accessToken'))
+            setRefreshToken(sessionStorage.getItem('refreshToken'))
         }
 
     }, [])
 
     React.useEffect(() => { // For loading data
 
-        console.log("First Fetch");
-        fetchAndUpdateProfile(username, accessToken, setProfile);
-        fetchAndUpdateJobs(accessToken, setJobs);
-
+        if (accessToken) {
+            console.log("First Fetch");
+            fetchAndUpdateProfile(username, accessToken, setProfile);
+            fetchAndUpdateJobs(accessToken, setJobs);
+        }
     }, [accessToken, username])
 
 

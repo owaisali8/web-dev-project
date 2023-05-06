@@ -34,12 +34,19 @@ function AdminLogin() {
 
         axios.request(config)
             .then((response) => {
-                localStorage.setItem('username', username)
-                localStorage.setItem('accessToken', response.data['accessToken'])
-                localStorage.setItem('refreshToken', response.data['refreshToken'])
-                localStorage.setItem('rememberMe', rememberMe)
-                console.log('Logged In');
+                if (rememberMe) {
+                    localStorage.setItem('username', username)
+                    localStorage.setItem('accessToken', response.data['accessToken'])
+                    localStorage.setItem('refreshToken', response.data['refreshToken'])
+                    localStorage.setItem('rememberMe', rememberMe)
+                } else {
+                    sessionStorage.setItem('username', username)
+                    sessionStorage.setItem('accessToken', response.data['accessToken'])
+                    sessionStorage.setItem('refreshToken', response.data['refreshToken'])
+                    sessionStorage.setItem('rememberMe', rememberMe)
+                }
                 navigate('/admin/portal', { replace: true })
+                console.log('Logged In');
             })
             .catch((error) => {
                 setError([true, error.response.data])
@@ -50,9 +57,8 @@ function AdminLogin() {
 
     useEffect(() => {
         const check = localStorage.getItem('rememberMe')
-        if (check === 'false') {
-            return () => localStorage.clear()
-        } else if (check === 'true') {
+        const check2 = sessionStorage.getItem('rememberMe')
+        if (check || check2) {
             navigate('/admin/portal', { replace: true })
         }
     }, [navigate])
@@ -69,7 +75,7 @@ function AdminLogin() {
                         flexWrap: 'wrap',
                         '& > :not(style)': {
                             m: 1,
-                            width: 300,
+                            width: 400,
                             height: 370,
                         },
                     }}
