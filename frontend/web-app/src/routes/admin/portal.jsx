@@ -15,17 +15,29 @@ import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Button, Card, CardContent } from '@mui/material';
+import { Button, Card, CardContent, Fab, Stack, TableFooter } from '@mui/material';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import { useNavigate } from 'react-router-dom';
 import { AccountCircle } from '@mui/icons-material';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
+import EditIcon from '@mui/icons-material/Edit';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TablePagination from '@mui/material/TablePagination';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
-
+//import { useNavigate } from 'react-router-dom';
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 // import Orders from './Orders';
@@ -96,8 +108,8 @@ function AdminPortal() {
     const [jobs, setJobs] = React.useState([]);
     const [profile, setProfile] = React.useState({});
     const [title, setTitle] = React.useState('Dashboard');
-    const navigate = useNavigate()
-
+    //const navigate = useNavigate()
+    const [page, setPage] = React.useState(0);
     const username = localStorage.getItem('username')
     const accessToken = localStorage.getItem('accessToken')
     const refreshToken = localStorage.getItem('refreshToken')
@@ -106,10 +118,13 @@ function AdminPortal() {
         setOpen(!open);
     };
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
     const handleLogout = () => {
         localStorage.clear()
-        navigate('/admin/login', { replace: true })
-        window.location.reload(true)
+        window.location = '/admin/login'
     }
 
     const handleDashboard = () => {
@@ -139,38 +154,91 @@ function AdminPortal() {
     const showDashboard = (
         <>
             <Grid container spacing={3}>
-                {/* Chart */}
                 <Grid item xs={12} md={8} lg={9}>
                     <Paper
                         sx={{
                             p: 2,
                             display: 'flex',
                             flexDirection: 'column',
-                            height: 240,
+                            height: 450,
                         }}
                     >
-                        {/* <Chart /> */}
+                        <Typography component="div" variant="h5">Recent Jobs:</Typography>
+                        <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Job ID</TableCell>
+                            <TableCell align="right">Title</TableCell>
+                            <TableCell align="right">Description</TableCell>
+                            <TableCell align="right">Completed</TableCell>
+                            <TableCell align="right">Date Posted</TableCell>
+                            <TableCell align="right">Employer ID</TableCell>
+                            <TableCell align="right">Job Type</TableCell>
+                            <TableCell align="right">Salary</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {jobs.map((job) => ( 
+                            <TableRow
+                                key={job.job_id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">{job.job_id} </TableCell>
+                                <TableCell align="right">{job.title}</TableCell>
+                                <TableCell align="right">{job.description}</TableCell>
+                                <TableCell align="right">{job.completed ? <CheckIcon /> : <CloseIcon />}</TableCell>
+                                <TableCell align="right">{job.date_posted}</TableCell>
+                                <TableCell align="right">{job.employer_id}</TableCell>
+                                <TableCell align="right">{job.job_type}</TableCell>
+                                <TableCell align="right">{job.salary}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                count={jobs.length}
+                                rowsPerPageOptions={[]}
+                                rowsPerPage={1}
+                                page={page}
+                                onPageChange={handleChangePage}
+                            />
+                        </TableRow>
+                    </TableFooter>
+                </Table>
+            </TableContainer>
+            
                     </Paper>
                 </Grid>
-                {/* Recent Deposits */}
                 <Grid item xs={12} md={4} lg={3}>
                     <Paper
                         sx={{
                             p: 2,
                             display: 'flex',
                             flexDirection: 'column',
-                            height: 240,
+                            height: 450,
                         }}
                     >
-                        {/* <Deposits /> */}
+                        <Box sx={{ m: 2 }} />
+                        <Typography component="div" variant="h5">Jobs: {jobs.length}</Typography>
+                        <Box sx={{ m: 2 }} />
+                        <Typography component="div" variant="h5">Completed Jobs: {jobs.filter((obj) => obj.completed).length}</Typography>
+                        <Box sx={{ m: 2 }} />
+                        <Typography component="div" variant="h5">Uncompleted Jobs: {jobs.filter((obj) => !obj.completed).length}</Typography>
+                        <Box sx={{ m: 2 }} />
+                        <Typography component="div" variant="h5">Employees: {jobs.length}</Typography>
+                        <Box sx={{ m: 2 }} />
+                        <Typography component="div" variant="h5">Employers: {jobs.length}</Typography>
+                        <Box sx={{ m: 2 }} />
+                        <Typography component="div" variant="h5">Admin: {jobs.length}</Typography>
                     </Paper>
                 </Grid>
                 {/* Recent Orders */}
-                <Grid item xs={12}>
-                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                        {/* <Orders /> */}
+                {/* <Grid item xs={12}>
+                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>                        
                     </Paper>
-                </Grid>
+                </Grid> */}
             </Grid>
             <Copyright sx={{ pt: 4 }} />
         </>
@@ -180,7 +248,7 @@ function AdminPortal() {
         <>
             <Card>
                 <CardContent align='left'>
-                    <img src={'http://localhost:3000/admin/' + username + '/getImage'} height={200} width={200} align='right'/>
+                    <img src={'http://localhost:3000/admin/' + username + '/getImage'} height={200} width={200} align='right' />
                     <Typography sx={{ fontSize: 25 }}>
                         {profile.name}
                     </Typography>
@@ -214,17 +282,78 @@ function AdminPortal() {
         </>
     )
 
-    React.useEffect(() => {
+    const showJobs = (
+        <>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Job ID</TableCell>
+                            <TableCell align="right">Title</TableCell>
+                            <TableCell align="right">Description</TableCell>
+                            <TableCell align="right">Completed</TableCell>
+                            <TableCell align="right">Date Posted</TableCell>
+                            <TableCell align="right">Employer ID</TableCell>
+                            <TableCell align="right">Job Type</TableCell>
+                            <TableCell align="right">Salary</TableCell>
+                            <TableCell align="right">Delete</TableCell>
+                            <TableCell align="right">Edit</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {jobs.map((job) => (
+                            <TableRow
+                                key={job.job_id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">{job.job_id} </TableCell>
+                                <TableCell align="right">{job.title}</TableCell>
+                                <TableCell align="right">{job.description}</TableCell>
+                                <TableCell align="right">{job.completed ? <CheckIcon /> : <CloseIcon />}</TableCell>
+                                <TableCell align="right">{job.date_posted}</TableCell>
+                                <TableCell align="right">{job.employer_id}</TableCell>
+                                <TableCell align="right">{job.job_type}</TableCell>
+                                <TableCell align="right">{job.salary}</TableCell>
+                                <TableCell align="right"><IconButton aria-label="delete"><DeleteIcon /></IconButton></TableCell>
+                                <TableCell align="right"><IconButton aria-label="delete"><EditIcon /></IconButton></TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                count={jobs.length}
+                                rowsPerPageOptions={[]}
+                                rowsPerPage={6}
+                                page={page}
+                                onPageChange={handleChangePage}
+                            />
+                        </TableRow>
+                    </TableFooter>
+                </Table>
+            </TableContainer>
+            <Box sx={{ m: 2 }} />
+            <Stack direction="row" spacing={2}>
+                <Fab color="primary" align="right" aria-label="add" >
+                    <AddIcon />
+                </Fab>
+                <Fab color="primary" align="right" aria-label="add" >
+                    <SearchIcon />
+                </Fab>
+            </Stack>
+        </>
+    )
+
+    React.useEffect(() => { // For checking whether user has logged in or not?
         const check = localStorage.getItem('rememberMe')
         if (!check) {
-            navigate('/admin/login', { replace: true })
-            window.location.reload(true)
+            window.location = '/admin/login'
             return () => localStorage.clear()
         }
 
-    }, [navigate])
+    }, [])
 
-    React.useEffect(() => {
+    React.useEffect(() => { // For loading admin data
 
         let config = {
             method: 'get',
@@ -243,7 +372,27 @@ function AdminPortal() {
                 console.log(error);
             });
 
-    }, [accessToken, profile, username])
+    }, [accessToken, username])
+
+    React.useEffect(() => { // For Loading Jobs Data
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:3000/jobs/',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
+        };
+
+        axios.request(config)
+            .then((response) => {
+                setJobs(response.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }, [accessToken])
 
     document.body.style.display = 'contents'
     const element = document.getElementById('root')
@@ -257,7 +406,9 @@ function AdminPortal() {
         case 'My Profile':
             body = showProfile
             break;
-
+        case 'Jobs':
+            body = showJobs
+            break;
         default:
             body = showDashboard
             break;
