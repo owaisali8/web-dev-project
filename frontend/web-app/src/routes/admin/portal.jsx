@@ -180,7 +180,7 @@ function AdminPortal() {
                         <Typography component="div" variant="h5">Recent Jobs:</Typography>
                         <Box sx={{ m: 1 }} />
                         <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <Table sx={{ minWidth: 650 }} aria-label="a dense table" size="small">
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Job ID</TableCell>
@@ -309,7 +309,7 @@ function AdminPortal() {
     const showJobs = (
         <>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell>Job ID</TableCell>
