@@ -59,7 +59,7 @@ function AdminLogin() {
 
 
     document.body.className = classes.bg
-    
+
     return (
         <>
             <center>
@@ -82,12 +82,37 @@ function AdminLogin() {
                             <Box sx={{ m: 1 }} />
                             <Typography variant="h5"> Admin Login </Typography>
                             <Box sx={{ m: 2 }} />
-                            <TextField error={error[0]} value={username} id="outlined-basic" label="Username" variant="outlined" onChange={handleUsername} />
-                            <TextField error={error[0]} value={password} id="outlined-basic" label="Password" type="password" variant="outlined" onChange={handlePassword} />
+                            <TextField error={error[0]} value={username} id="outlined-basic" label="Username" variant="outlined" onChange={handleUsername}
+                                sx={{
+                                    '& label.Mui-focused': {
+                                        color: 'black', // Change the label color here
+                                    },
+                                    '& .MuiInputBase-root': {
+                                        color: 'black',
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'black',  // Change the border color when focused
+                                        }
+
+                                    }
+                                }} />
+                            <TextField error={error[0]} value={password} id="outlined-basic" label="Password" type="password" variant="outlined" onChange={handlePassword}
+                                sx={{
+                                    '& label.Mui-focused': {
+                                        color: 'black', // Change the label color here
+                                    },
+                                    '& .MuiInputBase-root': {
+                                        color: 'black',
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'black',  // Change the border color when focused
+                                        }
+
+                                    }
+                                }}
+                            />
                             <FormGroup>
-                                <FormControlLabel control={<Checkbox checked={rememberMe} onChange={handleRememberMe} />} label="Remember Me" />
+                                <FormControlLabel control={<Checkbox checked={rememberMe} onChange={handleRememberMe} style={{ color: 'black' }} />} label="Remember Me" />
                             </FormGroup>
-                            <Button size="large" onClick={handleLogin}>Login</Button>
+                            <Button disabled={(username == '' || password == '')} size="large" onClick={handleLogin} type="submit" sx={{ color: 'black' }}>Login</Button>
                             <Box sx={{ m: 3 }} />
                             {error[0] ? <Alert severity="error"> {error[1]} </Alert> : <></>}
                         </Stack>

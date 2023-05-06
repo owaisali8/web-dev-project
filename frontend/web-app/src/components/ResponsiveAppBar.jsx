@@ -26,7 +26,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar  position="fixed"  color='primary'>
+    <AppBar  position="fixed"  color='primary' sx = {{backgroundColor: "black"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <WorkIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }} />

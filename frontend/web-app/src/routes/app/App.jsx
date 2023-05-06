@@ -139,13 +139,13 @@ function App() {
       <div>
         <Box sx={{ m: 5 }} />
         <Card sx={{ minWidth: 200, minHeight: 200 }}>
-        <Box sx={{ m: 2 }} />
+          <Box sx={{ m: 2 }} />
           <CardContent>
-          <Typography component="div" variant="h4" align="center">
-                What are you waiting for?
-              </Typography>
-              <Box sx={{ m: 5 }} />
-            <Button variant="contained" size="large">Download The App Now</Button>
+            <Typography component="div" variant="h4" align="center">
+              What are you waiting for?
+            </Typography>
+            <Box sx={{ m: 5 }} />
+            <Button variant="contained" size="large" sx={{ bgcolor: "black" }}>Download The App Now</Button>
           </CardContent>
         </Card>
       </div>
