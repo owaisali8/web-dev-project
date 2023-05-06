@@ -1,5 +1,6 @@
 import { Typography, Box, Stack, Card, CardMedia, CardContent, Button } from '@mui/material'
 import ResponsiveAppBar from '../../components/ResponsiveAppBar'
+import { TypeAnimation } from 'react-type-animation';
 import './App.css'
 
 function App() {
@@ -9,7 +10,21 @@ function App() {
       <ResponsiveAppBar />
       <Box sx={{ m: 15 }} />
       <div>
-        <Typography variant='h1' color="white">Kaam Daam</Typography>
+      <TypeAnimation
+      sequence={[
+        'Kaam Daam', 
+        4000, 
+        'کام دام',
+        4000
+      ]}
+      wrapper="span"
+      cursor={true}
+      repeat={Infinity}
+      speed={30}
+      style={{ fontSize: '7em', display: 'inline-flex', color: "white" }}
+    /> 
+    <br/>
+        {/* <Typography variant='h1' color="white">Kaam Daam</Typography> */}
         <Typography variant='h7' color="white">
           App that connects service providers with customers in need.
         </Typography>
