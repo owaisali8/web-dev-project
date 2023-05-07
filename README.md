@@ -1,6 +1,8 @@
 # Kaam Daam (کام دام)  
 ## Domestic Services Provider App
 
+![Tech Stack](https://github-readme-tech-stack.vercel.app/api/cards?title=Tech%20Stack&lineCount=2&line1=react,react,auto;Flutter,Flutter,auto;vite,Vite,auto;&line2=nodedotjs,Node,auto;express,express,auto;postgresql,Postgresql,auto;)
+
 ### Description 
 Hiring a maid for home chores or a gardener to look after a garden is a daunting task especially for females in Pakistan as people seem to have trust issues due to authenticity and security concerns.
 
@@ -24,7 +26,7 @@ Major services for which people can register or hire include housecleaning, cook
 Reason: Our target market is mobile users. As per the norm, people prefer to use mobile apps for hiring related activities like the users of Careem and Bykea. For this particular reason we are building a mobile app.
 
 - Frontend (Optional): React  
-Reason: To create a basic information/portal site for our clients and users but this will be implemented when our mobile app is ready.
+Reason: To create a basic information/portal site for our admin but this will be implemented when our mobile app is ready.
 
 - Backend: Node  
 Reason: Node.js is very efficient with real-time applications, as it facilitates handling multiple client requests, enables sharing and reusing packages. Our service does not require multi-threaded tasks and hence node.js will be ideal in terms of development and QoS.
@@ -39,7 +41,7 @@ Reason: Express.js, is a web application framework for Node.js, released as free
 - [X] Creation of ERD and then relational database using postgre to store and manipulate all the data.
 - [X] Make a robust backend which handles all the requests on both web(optional) and mobile.
 - [X] Make a web server to handle app queries using express.js.
-- [ ] Create a frontend on Flutter using Material Design and web(optional).
+- [X] Create a frontend on Flutter using Material Design and web(optional).
 
 ### Schema
 <img src="https://github.com/owaisali8/web-dev-project/blob/main/SQL/Opera%20Snapshot_2023-03-11_045820_127.0.0.1.png" height="80%" width="80%" />
@@ -53,4 +55,15 @@ Reason: Express.js, is a web application framework for Node.js, released as free
 | Web Server|Express|
 |Database Access|pg|
 |Validation|Joi|
+
+### Frontend:
+
+|Feature  | Framework |
+|--|--|
+| Admin Portal| React|
+| Mobile App | Flutter|
+| UI Design |Material Design|
+
+### Screenshots:
+
 
