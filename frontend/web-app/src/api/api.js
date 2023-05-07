@@ -21,7 +21,7 @@ export function fetchAndUpdateJobs(accessToken, setJobs) {
         });
 }
 
-export function fetchAndUpdateProfile(username, accessToken, setProfile) {
+export function fetchAndUpdateProfile(username, accessToken, setProfile, setExpiry) {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
@@ -34,6 +34,31 @@ export function fetchAndUpdateProfile(username, accessToken, setProfile) {
     axios.request(config)
         .then((response) => {
             setProfile(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+            if (error.response.status == 403) {
+                setExpiry(true)
+            }
+        });
+}
+
+export function fetchAndUpdateAccessToken(refreshToken, setAccessToken, setRefreshToken) {
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: APP_URL + '/admin/refreshToken',
+        data: {
+            refreshToken: refreshToken
+        }
+        
+    };
+
+    axios.request(config)
+        .then((response) => {
+            console.log("AccessToken Refreshed")
+            setAccessToken(response.data.accessToken);
+            setRefreshToken(response.data.refreshToken);
         })
         .catch((error) => {
             console.log(error);

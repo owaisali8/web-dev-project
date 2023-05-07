@@ -36,7 +36,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { fetchAndUpdateJobs, fetchAndUpdateProfile } from '../../api/api'
+import { fetchAndUpdateJobs, fetchAndUpdateProfile, fetchAndUpdateAccessToken } from '../../api/api'
 //import axios from 'axios';
 //import { useNavigate } from 'react-router-dom';
 // import Chart from './Chart';
@@ -121,6 +121,8 @@ function AdminPortal() {
     const [username, setUsername] = React.useState('')
     const [accessToken, setAccessToken] = React.useState('')
     const [refreshToken, setRefreshToken] = React.useState('')
+    const [rememberMe, setRememberMe] = React.useState(false)
+    const [expiry, setExpiry] = React.useState(false)
 
     const toggleDrawer = () => {
         setOpen(!open);
@@ -308,6 +310,31 @@ function AdminPortal() {
 
     const showJobs = (
         <>
+            <Stack direction="row" spacing={2}>
+                <Tooltip title="Add" arrow>
+                    <Fab color="primary" align="right" aria-label="add" size='medium'
+                        sx={{
+                            bgcolor: 'black', '&:hover': {
+                                color: 'black',
+                                backgroundColor: 'white',
+                            }
+                        }}>
+                        <AddIcon />
+                    </Fab>
+                </Tooltip>
+                <Tooltip title="Search" arrow>
+                    <Fab color="primary" align="right" aria-label="add" size='medium'
+                        sx={{
+                            bgcolor: 'black', '&:hover': {
+                                color: 'black',
+                                backgroundColor: 'white',
+                            }
+                        }}>
+                        <SearchIcon />
+                    </Fab>
+                </Tooltip>
+            </Stack>
+            <Box sx={{ m: 2 }} />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
                     <TableHead>
@@ -357,31 +384,6 @@ function AdminPortal() {
                     </TableFooter>
                 </Table>
             </TableContainer>
-            <Box sx={{ m: 2 }} />
-            <Stack direction="row" spacing={2}>
-                <Tooltip title="Add" arrow>
-                    <Fab color="primary" align="right" aria-label="add"
-                        sx={{
-                            bgcolor: 'black', '&:hover': {
-                                color: 'black',
-                                backgroundColor: 'white',
-                            }
-                        }}>
-                        <AddIcon />
-                    </Fab>
-                </Tooltip>
-                <Tooltip title="Search" arrow>
-                    <Fab color="primary" align="right" aria-label="add"
-                        sx={{
-                            bgcolor: 'black', '&:hover': {
-                                color: 'black',
-                                backgroundColor: 'white',
-                            }
-                        }}>
-                        <SearchIcon />
-                    </Fab>
-                </Tooltip>
-            </Stack>
         </>
     )
 
@@ -395,10 +397,12 @@ function AdminPortal() {
             setUsername(localStorage.getItem('username'))
             setAccessToken(localStorage.getItem('accessToken'))
             setRefreshToken(localStorage.getItem('refreshToken'))
+            setRememberMe(true)
         } else if (check2) {
             setUsername(sessionStorage.getItem('username'))
             setAccessToken(sessionStorage.getItem('accessToken'))
             setRefreshToken(sessionStorage.getItem('refreshToken'))
+            setRememberMe(false)
         }
 
     }, [])
@@ -407,10 +411,26 @@ function AdminPortal() {
 
         if (accessToken) {
             console.log("First Fetch");
-            fetchAndUpdateProfile(username, accessToken, setProfile);
+            fetchAndUpdateProfile(username, accessToken, setProfile, setExpiry);
             fetchAndUpdateJobs(accessToken, setJobs);
         }
     }, [accessToken, username])
+
+    React.useEffect(() => {
+        if (expiry) {
+            fetchAndUpdateAccessToken(refreshToken, setAccessToken, setRefreshToken)
+            if (rememberMe) {
+                localStorage.setItem('accessToken', accessToken)
+                localStorage.setItem('refreshToken', refreshToken)
+            } else {
+                sessionStorage.setItem('accessToken', accessToken)
+                sessionStorage.setItem('refreshToken', refreshToken)
+            }
+            
+            setExpiry(false)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [expiry])
 
 
     document.body.style.display = 'contents'
