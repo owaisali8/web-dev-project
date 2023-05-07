@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './routes/app/App.jsx'
 import AdminLogin from './routes/admin/login.jsx';
 import AdminPortal from './routes/admin/portal.jsx';
+import AdminSignUp from './routes/admin/signup.jsx';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from './routes/error/error-page'
 import './index.css'
@@ -21,6 +22,11 @@ const router = createBrowserRouter([
   {
     path: "/admin/portal",
     element: <AdminPortal />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/admin/signup",
+    element: <AdminSignUp />,
     errorElement: <ErrorPage />
   }
 ]);

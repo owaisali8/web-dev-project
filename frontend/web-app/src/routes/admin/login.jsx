@@ -13,6 +13,8 @@ function AdminLogin() {
     const [rememberMe, setRememberMe] = useState(false)
     const [error, setError] = useState([false, ''])
     const navigate = useNavigate()
+    const APP_URL = import.meta.env.VITE_SERVER_URL;
+
 
     const handleUsername = e => setUsername(e.target.value)
     const handlePassword = e => setPassword(e.target.value)
@@ -27,7 +29,7 @@ function AdminLogin() {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://localhost:3000/admin/login',
+            url: APP_URL + '/admin/login',
             headers: {},
             data: user
         };
