@@ -43,7 +43,7 @@ const login = async (req, res) => {
         const user = { username: username, usertype: usertype, userId: userId }
         const accessToken = generateAccessToken(user)
         const refreshToken = generateRefreshToken(user)
-        res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken });
+        res.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, usertype: usertype });
     } else {
         res.status(404).send(LOGIN_ERR_MSG)
     }

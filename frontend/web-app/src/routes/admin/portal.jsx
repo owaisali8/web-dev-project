@@ -27,6 +27,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -35,7 +36,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { fetchAndUpdateJobs, fetchAndUpdateProfile, fetchAndUpdateAccessToken, deleteJob } from '../../api/api'
-import { fetchAndUpdateAdmins, fetchAndUpdateEmployers } from '../../api/api'
+import { fetchAndUpdateAdmins, fetchAndUpdateEmployers, fetchAndUpdateEmployees, updateEmployeeVerification } from '../../api/api'
 //import axios from 'axios';
 //import { useNavigate } from 'react-router-dom';
 // import AddIcon from '@mui/icons-material/Add';
@@ -111,6 +112,7 @@ function AdminPortal() {
     const [jobs, setJobs] = React.useState([]);
     const [admins, setAdmins] = React.useState([]);
     const [employers, setEmployers] = React.useState([]);
+    const [employees, setEmployees] = React.useState([]);
     const [profile, setProfile] = React.useState({});
     const [title, setTitle] = React.useState('Dashboard');
     //const navigate = useNavigate()
@@ -255,7 +257,7 @@ function AdminPortal() {
                         <Box sx={{ m: 2 }} />
                         <Typography component="div" variant="h6">Uncompleted Jobs: {jobs.filter((obj) => !obj.completed).length}</Typography>
                         <Box sx={{ m: 2 }} />
-                        <Typography component="div" variant="h6">Employees: {jobs.length}</Typography>
+                        <Typography component="div" variant="h6">Employees: {employees.length}</Typography>
                         <Box sx={{ m: 2 }} />
                         <Typography component="div" variant="h6">Employers: {employers.length}</Typography>
                         <Box sx={{ m: 2 }} />
@@ -449,6 +451,93 @@ function AdminPortal() {
         </>
     )
 
+    const showEmployees = (
+        <>
+            <Stack direction="row" spacing={2}>
+                <Tooltip title="Refresh" arrow>
+                    <Fab color="primary" align="right" aria-label="add" size='medium'
+                        onClick={() => {
+                            fetchAndUpdateEmployees(accessToken, setEmployees);
+                        }}
+                        sx={{
+                            bgcolor: 'black', '&:hover': {
+                                color: 'black',
+                                backgroundColor: 'white',
+                            }
+                        }}>
+                        <RefreshIcon />
+                    </Fab>
+                </Tooltip>
+            </Stack>
+            <Box sx={{ m: 2 }} />
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="medium">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Employee ID</TableCell>
+                            <TableCell align="right">Name</TableCell>
+                            <TableCell align="right">Username</TableCell>
+                            <TableCell align="right">Phone</TableCell>
+                            <TableCell align="right">Email</TableCell>
+                            <TableCell align="right">Address</TableCell>
+                            <TableCell align="right">DOB</TableCell>
+                            <TableCell align="right">Gender</TableCell>
+                            <TableCell align="right">CNIC</TableCell>
+                            <TableCell align="right">Job Type</TableCell>
+                            <TableCell align="right">Join Date</TableCell>
+                            <TableCell align="right">Verified</TableCell>
+                            <TableCell align="right">Rating</TableCell>
+                            <TableCell align="right">Verify</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {employees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((employee) => (
+                            <TableRow
+                                key={employee.employee_id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">{employee.employee_id} </TableCell>
+                                <TableCell align="right">{employee.name}</TableCell>
+                                <TableCell align="right">{employee.username}</TableCell>
+                                <TableCell align="right">{employee.phone}</TableCell>
+                                <TableCell align="right">{employee.email}</TableCell>
+                                <TableCell align="right">{employee.address}</TableCell>
+                                <TableCell align="right">{employee.dob}</TableCell>
+                                <TableCell align="right">{employee.gender}</TableCell>
+                                <TableCell align="right">{employee.cnic_no}</TableCell>
+                                <TableCell align="right">{employee.job_type}</TableCell>
+                                <TableCell align="right">{employee.join_date}</TableCell>
+                                <TableCell align="right">{employee.verified ? <CheckIcon /> : <CloseIcon />}</TableCell>
+                                <TableCell align="right">{employee.rating}</TableCell>
+                                <TableCell align="right">
+                                    <IconButton aria-label="change" onClick={() => {
+                                        const verified = employee.verified ? 'false' : 'true'
+                                        updateEmployeeVerification(accessToken, employee.username, verified)
+                                        setTimeout(() => fetchAndUpdateEmployees(accessToken, setEmployees), 500)
+                                    }}>
+                                        <ChangeCircleIcon />
+                                    </IconButton>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                count={employees.length}
+                                rowsPerPageOptions={[10, 15]}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </TableRow>
+                    </TableFooter>
+                </Table>
+            </TableContainer>
+        </>
+    )
+
     const showJobs = (
         <>
             <Stack direction="row" spacing={2}>
@@ -569,7 +658,8 @@ function AdminPortal() {
             fetchAndUpdateProfile(username, accessToken, setProfile, setExpiry);
             fetchAndUpdateAdmins(accessToken, setAdmins);
             fetchAndUpdateEmployers(accessToken, setEmployers);
-            
+            fetchAndUpdateEmployees(accessToken, setEmployees);
+
         }
     }, [accessToken, username])
 
@@ -610,6 +700,9 @@ function AdminPortal() {
             break;
         case 'Employers':
             body = showEmployer
+            break;
+        case 'Employees':
+            body = showEmployees
             break;
         default:
             body = showDashboard

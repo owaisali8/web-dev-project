@@ -21,6 +21,48 @@ export function fetchAndUpdateEmployers(accessToken, setEmployer) {
         });
 }
 
+export function fetchAndUpdateEmployees(accessToken, setEmployee) {
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: APP_URL + '/employee',
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    };
+
+    axios.request(config)
+        .then((response) => {
+            setEmployee(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+export function updateEmployeeVerification(accessToken, username, verified) {
+    let config = {
+        method: 'patch',
+        maxBodyLength: Infinity,
+        url: APP_URL + '/employee/changeVerfication',
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        },
+        data : {
+            username: username,
+            verified: verified
+        }
+    };
+
+    axios.request(config)
+        .then((response) => {
+            console.log(response.status);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
 export function fetchAndUpdateAdmins(accessToken, setAdmins) {
     let config = {
         method: 'get',
