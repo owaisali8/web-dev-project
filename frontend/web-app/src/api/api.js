@@ -2,6 +2,25 @@ import axios from 'axios';
 
 const APP_URL = import.meta.env.VITE_SERVER_URL;
 
+export function fetchAndUpdateEmployers(accessToken, setEmployer) {
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: APP_URL + '/employer',
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    };
+
+    axios.request(config)
+        .then((response) => {
+            setEmployer(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
 export function fetchAndUpdateAdmins(accessToken, setAdmins) {
     let config = {
         method: 'get',
