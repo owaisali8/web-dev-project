@@ -35,6 +35,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { fetchAndUpdateJobs, fetchAndUpdateProfile, fetchAndUpdateAccessToken, deleteJob } from '../../api/api'
+import { fetchAndUpdateAdmins } from '../../api/api'
 //import axios from 'axios';
 //import { useNavigate } from 'react-router-dom';
 // import AddIcon from '@mui/icons-material/Add';
@@ -108,6 +109,7 @@ function AdminPortal() {
 
     const [open, setOpen] = React.useState(true);
     const [jobs, setJobs] = React.useState([]);
+    const [admins, setAdmins] = React.useState([]);
     const [profile, setProfile] = React.useState({});
     const [title, setTitle] = React.useState('Dashboard');
     //const navigate = useNavigate()
@@ -148,7 +150,7 @@ function AdminPortal() {
     }
 
     const handleAdmins = () => {
-        setTitle('Admin')
+        setTitle('Admins')
     }
 
     const handleEmployers = () => {
@@ -256,7 +258,7 @@ function AdminPortal() {
                         <Box sx={{ m: 2 }} />
                         <Typography component="div" variant="h6">Employers: {jobs.length}</Typography>
                         <Box sx={{ m: 2 }} />
-                        <Typography component="div" variant="h6">Admin: {jobs.length}</Typography>
+                        <Typography component="div" variant="h6">Admin: {admins.length}</Typography>
                     </Paper>
                 </Grid>
                 {/* Recent Orders */}
@@ -308,6 +310,75 @@ function AdminPortal() {
         </>
     )
 
+    const showAdmin = (
+        <>
+            <Stack direction="row" spacing={2}>
+                <Tooltip title="Refresh" arrow>
+                    <Fab color="primary" align="right" aria-label="add" size='medium'
+                        onClick={() => {
+                            fetchAndUpdateAdmins(accessToken, setAdmins);
+                        }}
+                        sx={{
+                            bgcolor: 'black', '&:hover': {
+                                color: 'black',
+                                backgroundColor: 'white',
+                            }
+                        }}>
+                        <RefreshIcon />
+                    </Fab>
+                </Tooltip>
+            </Stack>
+            <Box sx={{ m: 2 }} />
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="medium">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="right">Admin ID</TableCell>
+                            <TableCell align="right">Name</TableCell>
+                            <TableCell align="right">Username</TableCell>
+                            <TableCell align="right">Phone</TableCell>
+                            <TableCell align="right">Email</TableCell>
+                            <TableCell align="right">Address</TableCell>
+                            <TableCell align="right">DOB</TableCell>
+                            <TableCell align="right">Gender</TableCell>
+                            <TableCell align="right">Join Date</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {admins.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((admin) => (
+                            <TableRow
+                                key={admin.admin_id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row">{admin.admin_id} </TableCell>
+                                <TableCell align="right">{admin.name}</TableCell>
+                                <TableCell align="right">{admin.username}</TableCell>
+                                <TableCell align="right">{admin.phone}</TableCell>
+                                <TableCell align="right">{admin.email}</TableCell>
+                                <TableCell align="right">{admin.address}</TableCell>
+                                <TableCell align="right">{admin.dob}</TableCell>
+                                <TableCell align="right">{admin.gender}</TableCell>
+                                <TableCell align="right">{admin.join_date}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                count={admins.length}
+                                rowsPerPageOptions={[10, 15]}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </TableRow>
+                    </TableFooter>
+                </Table>
+            </TableContainer>
+        </>
+    )
+
     const showJobs = (
         <>
             <Stack direction="row" spacing={2}>
@@ -325,21 +396,10 @@ function AdminPortal() {
                         <RefreshIcon />
                     </Fab>
                 </Tooltip>
-                {/* <Tooltip title="Search" arrow>
-                    <Fab color="primary" align="right" aria-label="add" size='medium'
-                        sx={{
-                            bgcolor: 'black', '&:hover': {
-                                color: 'black',
-                                backgroundColor: 'white',
-                            }
-                        }}>
-                        <SearchIcon />
-                    </Fab>
-                </Tooltip> */}
             </Stack>
             <Box sx={{ m: 2 }} />
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" size="medium">
                     <TableHead>
                         <TableRow>
                             <TableCell>Job ID</TableCell>
@@ -435,8 +495,10 @@ function AdminPortal() {
 
         if (accessToken) {
             console.log("First Fetch");
-            fetchAndUpdateProfile(username, accessToken, setProfile, setExpiry);
             fetchAndUpdateJobs(accessToken, setJobs);
+            fetchAndUpdateProfile(username, accessToken, setProfile, setExpiry);
+            fetchAndUpdateAdmins(accessToken, setAdmins);
+            
         }
     }, [accessToken, username])
 
@@ -468,6 +530,9 @@ function AdminPortal() {
     switch (title) {
         case 'My Profile':
             body = showProfile
+            break;
+        case 'Admins':
+            body = showAdmin
             break;
         case 'Jobs':
             body = showJobs
