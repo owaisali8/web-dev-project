@@ -26,6 +26,7 @@ import { AccountCircle } from '@mui/icons-material';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
@@ -311,15 +312,18 @@ function AdminPortal() {
     const showJobs = (
         <>
             <Stack direction="row" spacing={2}>
-                <Tooltip title="Add" arrow>
+                <Tooltip title="Refresh" arrow>
                     <Fab color="primary" align="right" aria-label="add" size='medium'
+                        onClick={() => {
+                            fetchAndUpdateJobs(accessToken, setJobs);
+                        }}
                         sx={{
                             bgcolor: 'black', '&:hover': {
                                 color: 'black',
                                 backgroundColor: 'white',
                             }
                         }}>
-                        <AddIcon />
+                        <RefreshIcon />
                     </Fab>
                 </Tooltip>
                 <Tooltip title="Search" arrow>
@@ -426,10 +430,10 @@ function AdminPortal() {
                 sessionStorage.setItem('accessToken', accessToken)
                 sessionStorage.setItem('refreshToken', refreshToken)
             }
-            
+
             setExpiry(false)
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [expiry])
 
 
