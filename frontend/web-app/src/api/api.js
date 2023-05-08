@@ -65,4 +65,23 @@ export function fetchAndUpdateAccessToken(refreshToken, setAccessToken, setRefre
         });
 }
 
+export function deleteJob(accessToken, job_id) {
+    let config = {
+        method: 'delete',
+        maxBodyLength: Infinity,
+        url: APP_URL + `/jobs/${job_id}`,
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    };
+
+    axios.request(config)
+        .then((response) => {
+            console.log(response)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
 

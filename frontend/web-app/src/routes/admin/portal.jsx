@@ -15,7 +15,7 @@ import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { Button, Card, CardContent, Fab, Stack, TableFooter, Tooltip } from '@mui/material';
+import { Button, Card, CardContent, Dialog, DialogActions, DialogTitle, Fab, Stack, TableFooter, Tooltip } from '@mui/material';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -27,9 +27,6 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
-import EditIcon from '@mui/icons-material/Edit';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -37,12 +34,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { fetchAndUpdateJobs, fetchAndUpdateProfile, fetchAndUpdateAccessToken } from '../../api/api'
+import { fetchAndUpdateJobs, fetchAndUpdateProfile, fetchAndUpdateAccessToken, deleteJob } from '../../api/api'
 //import axios from 'axios';
 //import { useNavigate } from 'react-router-dom';
-// import Chart from './Chart';
-// import Deposits from './Deposits';
-// import Orders from './Orders';
+// import AddIcon from '@mui/icons-material/Add';
+// import SearchIcon from '@mui/icons-material/Search';
+// import EditIcon from '@mui/icons-material/Edit';
+
 const APP_URL = import.meta.env.VITE_SERVER_URL;
 
 function Copyright(props) {
@@ -124,6 +122,7 @@ function AdminPortal() {
     const [refreshToken, setRefreshToken] = React.useState('')
     const [rememberMe, setRememberMe] = React.useState(false)
     const [expiry, setExpiry] = React.useState(false)
+    const [dialog, setDialog] = React.useState([false, 0])
 
     const toggleDrawer = () => {
         setOpen(!open);
@@ -326,7 +325,7 @@ function AdminPortal() {
                         <RefreshIcon />
                     </Fab>
                 </Tooltip>
-                <Tooltip title="Search" arrow>
+                {/* <Tooltip title="Search" arrow>
                     <Fab color="primary" align="right" aria-label="add" size='medium'
                         sx={{
                             bgcolor: 'black', '&:hover': {
@@ -336,7 +335,7 @@ function AdminPortal() {
                         }}>
                         <SearchIcon />
                     </Fab>
-                </Tooltip>
+                </Tooltip> */}
             </Stack>
             <Box sx={{ m: 2 }} />
             <TableContainer component={Paper}>
@@ -352,7 +351,6 @@ function AdminPortal() {
                             <TableCell align="right">Job Type</TableCell>
                             <TableCell align="right">Salary</TableCell>
                             <TableCell align="right">Delete</TableCell>
-                            <TableCell align="right">Edit</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -369,8 +367,10 @@ function AdminPortal() {
                                 <TableCell align="right">{job.employer_id}</TableCell>
                                 <TableCell align="right">{job.job_type}</TableCell>
                                 <TableCell align="right">{job.salary}</TableCell>
-                                <TableCell align="right"><IconButton aria-label="delete"><DeleteIcon /></IconButton></TableCell>
-                                <TableCell align="right"><IconButton aria-label="delete"><EditIcon /></IconButton></TableCell>
+                                <TableCell align="right"><IconButton onClick={() => {
+                                    setDialog([true, job.job_id])
+                                }}
+                                    aria-label="delete"><DeleteIcon /></IconButton></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -388,6 +388,26 @@ function AdminPortal() {
                     </TableFooter>
                 </Table>
             </TableContainer>
+            <Dialog
+                open={dialog[0]}
+                onClose={() => { setDialog(false) }}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Are you sure you want to delete?"}
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={() => { setDialog(false) }}>No</Button>
+                    <Button onClick={() => {
+                        deleteJob(accessToken, dialog[1])
+                        fetchAndUpdateJobs(accessToken, setJobs)
+                        setDialog(false)
+                    }} autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 

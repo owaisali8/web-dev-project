@@ -15,7 +15,7 @@ router.get('/:username/myAppliedJobs', authenticateEmployee, jobController.getEm
 
 router.get('/paged', authToken, jobController.getPagedJobs)
 
-router.delete('/:job_id', authenticateEmployer, jobController.deleteJobByID)
+router.delete('/:job_id', authToken, jobController.deleteJobByID)
 
 router.post('/applyForJob', authenticateEmployee, jobController.applyForJob)
 router.post('/', authenticateEmployer, jobController.createJob)
