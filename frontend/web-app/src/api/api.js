@@ -48,7 +48,7 @@ export function updateEmployeeVerification(accessToken, username, verified) {
         headers: {
             'Authorization': 'Bearer ' + accessToken
         },
-        data : {
+        data: {
             username: username,
             verified: verified
         }
@@ -131,7 +131,7 @@ export function fetchAndUpdateAccessToken(refreshToken, setAccessToken, setRefre
         data: {
             refreshToken: refreshToken
         }
-        
+
     };
 
     axios.request(config)
@@ -158,6 +158,26 @@ export function deleteJob(accessToken, job_id) {
     axios.request(config)
         .then((response) => {
             console.log(response)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+export function fetchAndUpdateJobsPaged(accessToken, setJobs, page, limit) {
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: APP_URL + '/jobs/paged' + `?page=${page + 1}&limit=${limit}`,
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    };
+
+
+    axios.request(config)
+        .then((response) => {
+            console.log(response.data);
         })
         .catch((error) => {
             console.log(error);

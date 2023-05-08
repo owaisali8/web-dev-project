@@ -35,7 +35,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { fetchAndUpdateJobs, fetchAndUpdateProfile, fetchAndUpdateAccessToken, deleteJob } from '../../api/api'
+import { fetchAndUpdateJobs, fetchAndUpdateProfile, fetchAndUpdateAccessToken, deleteJob, fetchAndUpdateJobsPaged } from '../../api/api'
 import { fetchAndUpdateAdmins, fetchAndUpdateEmployers, fetchAndUpdateEmployees, updateEmployeeVerification } from '../../api/api'
 //import axios from 'axios';
 //import { useNavigate } from 'react-router-dom';
@@ -597,7 +597,7 @@ function AdminPortal() {
                         <TableRow>
                             <TablePagination
                                 count={jobs.length}
-                                rowsPerPageOptions={[10, 15]}
+                                rowsPerPageOptions={[10, 15, 1]}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 onPageChange={handleChangePage}
@@ -678,6 +678,11 @@ function AdminPortal() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [expiry])
+
+    React.useEffect(() => {
+        if (accessToken)
+            fetchAndUpdateJobsPaged(accessToken, setJobs, page, rowsPerPage)
+    }, [accessToken, page, rowsPerPage])
 
 
     document.body.style.display = 'contents'
