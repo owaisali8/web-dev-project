@@ -72,7 +72,7 @@ class _LoginFormState extends State<LoginForm> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Logging In')),
                         );
-                        Navigator.pushReplacementNamed(context, '/employee/home');
+                        Navigator.pushReplacementNamed(context, '/home');
                       }
                     },
                     child: const Text("Login"))),

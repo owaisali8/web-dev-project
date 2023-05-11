@@ -10,11 +10,12 @@ class Login extends StatelessWidget {
       child: Scaffold(
           body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
         children: [
           Row(children: const [Spacer(), Icon(Icons.work, size: 60), Spacer()]),
           const LoginForm(),
-          const SizedBox(height: 20,)
+          const SizedBox(
+            height: 20,
+          )
         ],
       )),
     );
