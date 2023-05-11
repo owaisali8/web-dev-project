@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kaam_daam/global/constants.dart';
 import 'package:kaam_daam/views/home.dart';
 import 'package:kaam_daam/views/login.dart';
+import 'package:kaam_daam/views/settings.dart';
 import 'package:kaam_daam/views/sign_up.dart';
 
 void main() {
@@ -27,9 +28,10 @@ class MyApp extends StatelessWidget {
             accessToken == null ? const Login() : const Home(),
         '/login': (context) => const Login(),
         '/sign-up': (context) => const SignUp(),
-        '/home': (context) => const Home()
+        '/home': (context) => const Home(),
+        '/settings':(context) => const Settings()
       },
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       theme: ThemeData(
         colorSchemeSeed: Colors.indigo,
         visualDensity: VisualDensity.standard,

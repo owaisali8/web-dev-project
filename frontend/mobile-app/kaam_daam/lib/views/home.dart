@@ -28,69 +28,73 @@ class _HomeState extends State<Home> {
         break;
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        centerTitle: true,
-      ),
-      floatingActionButton: userType == 'Employer'
-          ? FloatingActionButton(
-              onPressed: () {},
-              tooltip: 'New Job',
-              child: const Icon(Icons.add),
-            )
-          : null,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: selectedPageIndex,
-        onDestinationSelected: (int index) {
-          setState(() {
-            selectedPageIndex = index;
-          });
-        },
-        destinations: const <NavigationDestination>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.work_rounded),
-            icon: Icon(Icons.work_outline_rounded),
-            label: 'Jobs',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(Icons.person),
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
-          ),
-        ],
-      ),
-      body: [
-        const Card(child: ListTile(title: Text('Job 1'))),
-        Card(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 8.0),
-                child:
-                    CircleAvatar(radius: 25, child: Icon(Icons.person_rounded)),
-              ),
-              const ListTile(title: Text('Profile'), subtitle: Text("Hello")),
-              ListTile(
-                onTap: () {},
-                horizontalTitleGap: 1,
-                leading: const Icon(Icons.settings),
-                title: const Text('Settings'),
-              ),
-              ListTile(
-                onTap: () {
-                  storage.clear();
-                  Navigator.pushReplacementNamed(context, '/login');
-                },
-                horizontalTitleGap: 1,
-                leading: const Icon(Icons.logout_rounded),
-                title: const Text('Log Out'),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+          centerTitle: true,
+        ),
+        floatingActionButton: userType == 'Employer'
+            ? FloatingActionButton(
+                onPressed: () {},
+                tooltip: 'New Job',
+                child: const Icon(Icons.add),
               )
-            ],
-          ),
-        )
-      ][selectedPageIndex],
+            : null,
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: selectedPageIndex,
+          onDestinationSelected: (int index) {
+            setState(() {
+              selectedPageIndex = index;
+            });
+          },
+          destinations: const <NavigationDestination>[
+            NavigationDestination(
+              selectedIcon: Icon(Icons.work_rounded),
+              icon: Icon(Icons.work_outline_rounded),
+              label: 'Jobs',
+            ),
+            NavigationDestination(
+              selectedIcon: Icon(Icons.person),
+              icon: Icon(Icons.person_outline),
+              label: 'Profile',
+            ),
+          ],
+        ),
+        body: [
+          const Card(child: ListTile(title: Text('Job 1'))),
+          Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                  child:
+                      CircleAvatar(radius: 25, child: Icon(Icons.person_rounded)),
+                ),
+                const ListTile(title: Text('Profile'), subtitle: Text("Hello")),
+                ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/settings');
+                  },
+                  horizontalTitleGap: 1,
+                  leading: const Icon(Icons.settings),
+                  title: const Text('Settings'),
+                ),
+                ListTile(
+                  onTap: () {
+                    storage.clear();
+                    Navigator.pushReplacementNamed(context, '/login');
+                  },
+                  horizontalTitleGap: 1,
+                  leading: const Icon(Icons.logout_rounded),
+                  title: const Text('Log Out'),
+                )
+              ],
+            ),
+          )
+        ][selectedPageIndex],
+      ),
     );
   }
 }
