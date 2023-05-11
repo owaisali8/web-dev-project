@@ -5,17 +5,17 @@ import 'package:kaam_daam/views/login.dart';
 import 'package:kaam_daam/views/settings.dart';
 import 'package:kaam_daam/views/sign_up.dart';
 
-void main() {
+void main() async {
+  await storage.ready;
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final accessToken = storage.getItem('accessToken');
+    final String? accessToken = storage.getItem('accessToken');
 
     return MaterialApp(
       title: 'Kaam Daam',
@@ -24,12 +24,11 @@ class MyApp extends StatelessWidget {
       debugShowMaterialGrid: false,
       initialRoute: '/',
       routes: {
-        '/': (context) =>
-            accessToken == null ? const Login() : const Home(),
+        '/' :(context) => accessToken == null? const Login():  const Home(),
         '/login': (context) => const Login(),
         '/sign-up': (context) => const SignUp(),
         '/home': (context) => const Home(),
-        '/settings':(context) => const Settings()
+        '/settings': (context) => const Settings()
       },
       themeMode: ThemeMode.light,
       theme: ThemeData(
@@ -38,11 +37,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
-        colorSchemeSeed: Colors.indigo,
-        visualDensity: VisualDensity.standard,
-        useMaterial3: true,
-        brightness: Brightness.dark
-      ),
+          colorSchemeSeed: Colors.indigo,
+          visualDensity: VisualDensity.standard,
+          useMaterial3: true,
+          brightness: Brightness.dark),
     );
   }
 }

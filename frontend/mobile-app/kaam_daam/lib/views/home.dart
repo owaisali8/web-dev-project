@@ -10,12 +10,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int selectedPageIndex = 0;
-  final accessToken = storage.getItem('accessToken');
-  final userType = storage.getItem('userType');
+  final String accessToken = storage.getItem('accessToken');
+  final String userType = storage.getItem('userType');
   String title = '';
 
   @override
   Widget build(BuildContext context) {
+    
     switch (selectedPageIndex) {
       case 0:
         title = 'Jobs';
@@ -34,7 +35,7 @@ class _HomeState extends State<Home> {
           title: Text(title),
           centerTitle: true,
         ),
-        floatingActionButton: userType == 'Employer'
+        floatingActionButton: userType == 'EMPLOYER'
             ? FloatingActionButton(
                 onPressed: () {},
                 tooltip: 'New Job',

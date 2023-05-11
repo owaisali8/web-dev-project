@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kaam_daam/data/login_data.dart';
+import 'package:kaam_daam/global/constants.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -67,12 +69,29 @@ class _LoginFormState extends State<LoginForm> {
                 height: 50,
                 width: 150,
                 child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Logging In')),
-                        );
+                    onPressed: () async {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Logging In')),
+                      );
+                      try {
+                        final data = await login(username.text, password.text);
+                        storage.setItem('accessToken', data.accessToken);
+                        storage.setItem('refreshToken', data.refreshToken);
+                        storage.setItem('userType', data.usertype);
+
+                        if (!mounted) return;
                         Navigator.pushReplacementNamed(context, '/home');
+                      } on Exception catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString().substring(10)),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
                       }
                     },
                     child: const Text("Login"))),
