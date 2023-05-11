@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kaam_daam/global/dark_theme.dart';
+import 'package:provider/provider.dart';
+
+import '../global/constants.dart';
 
 class Settings extends StatelessWidget {
    const Settings({super.key});
@@ -47,18 +51,21 @@ class SwitchListTileExample extends StatefulWidget {
 }
 
 class _SwitchListTileExampleState extends State<SwitchListTileExample> {
-  bool _lights = false;
+  bool _lights = storage.getItem("isDarkMode") ?? false;
   @override
   Widget build(BuildContext context) {
-    return SwitchListTile(
+    return Consumer<DarkThemeNotifier>(builder:(context, theme, child) {
+      return SwitchListTile(
       title: Text(widget.title),
       value: _lights,
       activeColor: Colors.indigo,
       onChanged: (bool value) {
         setState(() {
           _lights = value;
+        theme.setDarkMode(value);
         });
       },
     );
+    },);
   }
 }
