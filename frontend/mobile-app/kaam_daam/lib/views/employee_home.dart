@@ -42,7 +42,7 @@ class _EmployeeHomeState extends State<EmployeeHome> {
           ),
         ],
       ),
-      body: const ListTile(title: Text('Job 1')),
+      body: const Card(child: ListTile(title: Text('Job 1'))),
     );
   }
 }
