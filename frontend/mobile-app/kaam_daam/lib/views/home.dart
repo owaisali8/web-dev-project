@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kaam_daam/components/profile_card.dart';
+import 'package:kaam_daam/data/profile_data.dart';
 import 'package:kaam_daam/global/constants.dart';
+import 'package:kaam_daam/models/profile_model.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,11 +15,19 @@ class _HomeState extends State<Home> {
   int selectedPageIndex = 0;
   final String accessToken = storage.getItem('accessToken');
   final String userType = storage.getItem('userType');
+  final String username = storage.getItem('username');
+
+  late Future<Profile> myProfile;
   String title = '';
 
   @override
+  void initState() {
+    super.initState();
+    myProfile = getProfileData(username, userType, accessToken);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    
     switch (selectedPageIndex) {
       case 0:
         title = 'Jobs';
@@ -64,36 +75,7 @@ class _HomeState extends State<Home> {
         ),
         body: [
           const Card(child: ListTile(title: Text('Job 1'))),
-          Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0),
-                  child:
-                      CircleAvatar(radius: 25, child: Icon(Icons.person_rounded)),
-                ),
-                const ListTile(title: Text('Profile'), subtitle: Text("Hello")),
-                ListTile(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/settings');
-                  },
-                  horizontalTitleGap: 1,
-                  leading: const Icon(Icons.settings),
-                  title: const Text('Settings'),
-                ),
-                ListTile(
-                  onTap: () {
-                    storage.clear();
-                    Navigator.pushReplacementNamed(context, '/login');
-                  },
-                  horizontalTitleGap: 1,
-                  leading: const Icon(Icons.logout_rounded),
-                  title: const Text('Log Out'),
-                )
-              ],
-            ),
-          )
+          ProfileCard(myProfile: myProfile, userType: userType)
         ][selectedPageIndex],
       ),
     );

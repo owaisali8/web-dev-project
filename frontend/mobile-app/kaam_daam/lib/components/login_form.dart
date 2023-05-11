@@ -82,6 +82,7 @@ class _LoginFormState extends State<LoginForm> {
                         storage.setItem('accessToken', data.accessToken);
                         storage.setItem('refreshToken', data.refreshToken);
                         storage.setItem('userType', data.usertype);
+                        storage.setItem('username', username.text);
 
                         if (!mounted) return;
                         Navigator.pushReplacementNamed(context, '/home');
