@@ -11,3 +11,14 @@ Future<http.Response> getProfile(
     },
   );
 }
+
+Future<http.Response> deleteProfile(
+    String username, String userType, String accessToken) async {
+  return await http.delete(
+    Uri.parse('$serverURL/$userType/$username'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $accessToken',
+    },
+  );
+}
