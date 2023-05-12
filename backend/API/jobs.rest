@@ -62,4 +62,5 @@ Content-Type: application/json
 GET  http://localhost:3000/jobs/paged?page=1&limit=2
 Authorization: Bearer {{ACCESS_TOKEN}}
 ###
-
+GET  http://localhost:3000/jobs/id/2/appliedBy
+###

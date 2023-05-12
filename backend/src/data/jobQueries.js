@@ -3,7 +3,8 @@ const getJobByID = "SELECT * FROM JOBS WHERE JOB_ID = $1";
 const getJobByTitle = "SELECT * FROM JOBS WHERE TITLE LIKE $1";
 const getJobsByJobType = "SELECT * FROM JOBS WHERE JOB_TYPE = $1";
 const getUncompletedJobs = "SELECT * FROM JOBS WHERE COMPLETED = FALSE";
-const getPagedJobs = "SELECT * FROM JOBS ORDER BY DATE_POSTED ASC LIMIT $2 OFFSET $1"
+const getPagedJobs = "SELECT * FROM JOBS ORDER BY DATE_POSTED ASC LIMIT $2 OFFSET $1";
+const getAppliedBy = "SELECT * FROM EMPLOYEE WHERE EMPLOYEE_ID IN (SELECT EMPLOYEE_ID FROM APPLIED_BY WHERE JOB_ID = $1)";
 
 const getEmployerJobs = "SELECT * FROM JOBS WHERE EMPLOYER_ID = $1"
 const getEmployeeAppliedJobs = "SELECT * FROM JOBS WHERE JOB_ID IN (SELECT JOB_ID FROM APPLIED_BY WHERE EMPLOYEE_ID = $1)"
@@ -25,6 +26,7 @@ module.exports = {
     getJobsByJobType,
     getEmployeeAppliedJobs,
     getPagedJobs,
+    getAppliedBy,
 
     deleteJobByID,
 

@@ -68,40 +68,61 @@ class JobInfo extends StatelessWidget {
                     ),
                   ],
                 ),
-          body: Card(
-              child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                horizontalTitleGap: -2,
-                title: Text(jobData.title!),
-                leading: Text(
-                  '${jobData.jobid}',
-                ),
-                trailing: Text('${jobData.jobtype}'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Card(
+                    child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('${jobData.description}'),
-                    Text('Posted On: ${jobData.dateposted}'),
+                    ListTile(
+                      horizontalTitleGap: -2,
+                      title: Text(jobData.title!),
+                      leading: Text(
+                        '${jobData.jobid}',
+                      ),
+                      trailing: Text('${jobData.jobtype}'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('${jobData.description}'),
+                          Text('Posted On: ${jobData.dateposted}'),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ListTile(
+                        title: const Text('Salary: '),
+                        trailing: Text('${jobData.salary}')),
+                    ListTile(
+                      title: const Text("Completed: "),
+                      trailing: jobData.completed!
+                          ? const Icon(Icons.check)
+                          : const Icon(Icons.cancel),
+                    )
                   ],
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              ListTile(
-                  title: const Text('Salary: '),
-                  trailing: Text('${jobData.salary}')),
-              ListTile(
-                title: const Text("Completed: "),
-                trailing: jobData.completed!
-                    ? const Icon(Icons.check)
-                    : const Icon(Icons.cancel),
-              )
-            ],
-          ))),
+                )),
+                userType == 'EMPLOYER'
+                    ? Card(
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/appliedBy',
+                                arguments: {
+                                  "accessToken": accessToken,
+                                  "id": jobData.jobid!
+                                });
+                          },
+                          title: const Text("Applied By: "),
+                          trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                        ),
+                      )
+                    : const SizedBox()
+              ],
+            ),
+          )),
     );
   }
 }

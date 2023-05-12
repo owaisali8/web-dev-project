@@ -201,6 +201,18 @@ const getPagedJobs = async (req, res) => {
 
 }
 
+const getJobAppliedBy = async (req, res) => {
+    const id = parseInt(req.params.id);
+    try {
+        const result = await pool.query(jobQueries.getAppliedBy,[id]);
+        const data = result.rows
+        res.status(200).json(data)
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(500)
+    }
+}
+
 module.exports = {
     getAllJobs,
     getJobById,
@@ -209,6 +221,7 @@ module.exports = {
     getEmployerJobs,
     getEmployeeAppliedJobs,
     getPagedJobs,
+    getJobAppliedBy,
 
     deleteJobByID,
 

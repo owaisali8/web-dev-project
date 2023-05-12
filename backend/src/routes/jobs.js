@@ -12,6 +12,7 @@ router.get('/find', authToken, jobController.getJobByTitle)
 router.get('/uncompletedJobs', authToken, jobController.getUncompletedJobs)
 router.get('/:username/myJobs', authenticateEmployer, jobController.getEmployerJobs)
 router.get('/:username/myAppliedJobs', authenticateEmployee, jobController.getEmployeeAppliedJobs)
+router.get('/id/:id/appliedBy', jobController.getJobAppliedBy)
 
 router.get('/paged', authToken, jobController.getPagedJobs)
 

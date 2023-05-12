@@ -44,3 +44,14 @@ Future<http.Response> newJob(String accessToken, String username, String title,
     }),
   );
 }
+
+Future<http.Response> getJobAppliedBy(
+    String accessToken, int id) async {
+  return await http.get(
+    Uri.parse('$serverURL/jobs/id/$id/appliedBy'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $accessToken',
+    },
+  );
+}

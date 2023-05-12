@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kaam_daam/global/constants.dart';
 import 'package:kaam_daam/global/dark_theme.dart';
+import 'package:kaam_daam/views/applied_by.dart';
 import 'package:kaam_daam/views/home.dart';
 import 'package:kaam_daam/views/job_info.dart';
 import 'package:kaam_daam/views/job_new.dart';
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
               '/home': (context) => const Home(),
               '/settings': (context) => const Settings(),
               '/job/info':(context) => const JobInfo(),
-              '/job/new': (context) => const JobNew()
+              '/job/new': (context) => const JobNew(),
+              '/appliedBy':(context) => const AppliedBy()
             },
             themeMode: value.isDarkMode,
             theme: ThemeData(
