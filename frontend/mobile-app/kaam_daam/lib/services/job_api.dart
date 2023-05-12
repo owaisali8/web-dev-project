@@ -62,6 +62,32 @@ Future<http.Response> updateRating(
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $accessToken',
       },
-      body: jsonEncode(
-          <String, String>{'username': username, 'rating': rating}));
+      body:
+          jsonEncode(<String, String>{'username': username, 'rating': rating}));
+}
+
+Future<http.Response> updateJob(String accessToken, int id, String title,
+    String description, String jobType, String salary, bool completed) async {
+  return await http.patch(Uri.parse('$serverURL/jobs/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode(<String, String>{
+        'title': title,
+        'description': description,
+        'job_type': jobType,
+        'salary': salary,
+        "completed": '$completed'
+      }));
+}
+
+Future<http.Response> deleteJob(String accessToken, int id) async {
+  return await http.delete(
+    Uri.parse('$serverURL/jobs/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $accessToken',
+    },
+  );
 }

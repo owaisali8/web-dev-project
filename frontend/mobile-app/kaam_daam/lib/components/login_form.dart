@@ -75,7 +75,10 @@ class _LoginFormState extends State<LoginForm> {
                       }
 
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Logging In')),
+                        const SnackBar(
+                          content: Text('Logging In'),
+                          duration: Duration(seconds: 1),
+                        ),
                       );
                       try {
                         final data = await login(username.text, password.text);

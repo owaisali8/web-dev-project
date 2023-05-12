@@ -50,7 +50,16 @@ class JobInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     FloatingActionButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await updateJob(
+                            accessToken,
+                            jobData.jobid!,
+                            jobData.title!,
+                            jobData.description!,
+                            jobData.jobtype!,
+                            jobData.salary!,
+                            !jobData.completed!);
+                      },
                       backgroundColor: Colors.green,
                       tooltip: 'Complete',
                       isExtended: true,
@@ -60,7 +69,9 @@ class JobInfo extends StatelessWidget {
                       width: 10,
                     ),
                     FloatingActionButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await deleteJob(accessToken, jobData.jobid!);
+                      },
                       backgroundColor: Colors.red,
                       tooltip: 'Delete',
                       isExtended: true,
