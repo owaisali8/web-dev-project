@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kaam_daam/global/constants.dart';
 import 'package:kaam_daam/global/dark_theme.dart';
 import 'package:kaam_daam/views/home.dart';
+import 'package:kaam_daam/views/job_info.dart';
 import 'package:kaam_daam/views/login.dart';
 import 'package:kaam_daam/views/settings.dart';
 import 'package:kaam_daam/views/sign_up.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
               '/login': (context) => const Login(),
               '/sign-up': (context) => const SignUp(),
               '/home': (context) => const Home(),
-              '/settings': (context) => const Settings()
+              '/settings': (context) => const Settings(),
+              '/job/info':(context) => const JobInfo()
             },
             themeMode: value.isDarkMode,
             theme: ThemeData(

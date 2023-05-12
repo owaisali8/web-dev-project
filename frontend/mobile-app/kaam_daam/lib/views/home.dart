@@ -116,7 +116,14 @@ class _HomeState extends State<Home> {
               if (index < jobs.length) {
                 return Card(
                     child: ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, '/job/info', arguments: {
+                      "accessToken": accessToken,
+                      "data": jobs[index],
+                      "userType": userType,
+                      "username": username
+                    });
+                  },
                   horizontalTitleGap: -2,
                   title: Text(jobs[index].title!),
                   leading: Text(
