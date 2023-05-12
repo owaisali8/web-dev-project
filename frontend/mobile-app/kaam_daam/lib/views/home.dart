@@ -20,14 +20,45 @@ class _HomeState extends State<Home> {
   final String username = storage.getItem('username');
 
   late Future<Profile> myProfile;
-  late Future<List<Job>> jobs;
+  late List<Job> jobs = [];
   String title = '';
+
+  int currentPage = 1;
+  int pageSize = 10;
+  bool isLoading = false;
+
+  late ScrollController _scrollController;
+
+  void _scrollListener() async {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      _loadData();
+    }
+  }
+
+  void _loadData() async {
+    if (!isLoading) {
+      setState(() {
+        isLoading = true;
+      });
+
+      final newItems = await getJobsData(accessToken, currentPage, pageSize);
+      setState(() {
+        jobs.addAll(newItems);
+        currentPage++;
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     myProfile = getProfileData(username, userType, accessToken);
-    jobs = getJobsData(accessToken);
+    _loadData();
   }
 
   @override
@@ -78,37 +109,39 @@ class _HomeState extends State<Home> {
           ],
         ),
         body: [
-          FutureBuilder(
-            future: jobs,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final data = snapshot.data!;
-                return ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                        child: ListTile(
-                      onTap: () {},
-                      horizontalTitleGap: -2,
-                      title: Text(data[index].title!),
-                      leading: Text(
-                        '${data[index].jobid}',
-                      ),
-                      trailing: Text('${data[index].jobtype}'),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${data[index].description}'),
-                          Text('Posted On: ${data[index].dateposted}'),
-                        ],
-                      ),
-                    ));
-                  },
-                );
-              } else if (snapshot.hasError) {
-                return Center(child: Text('${snapshot.error}'));
+          ListView.builder(
+            controller: _scrollController,
+            itemCount: jobs.length + 1,
+            itemBuilder: (context, index) {
+              if (index < jobs.length) {
+                return Card(
+                    child: ListTile(
+                  onTap: () {},
+                  horizontalTitleGap: -2,
+                  title: Text(jobs[index].title!),
+                  leading: Text(
+                    '${jobs[index].jobid}',
+                  ),
+                  trailing: Text('${jobs[index].jobtype}'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('${jobs[index].description}'),
+                      Text('Posted On: ${jobs[index].dateposted}'),
+                    ],
+                  ),
+                ));
               } else {
-                return const Center(child: CircularProgressIndicator());
+                if (isLoading) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else {
+                  return const SizedBox();
+                }
               }
             },
           ),
