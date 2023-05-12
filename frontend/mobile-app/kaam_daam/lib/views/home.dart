@@ -44,6 +44,9 @@ class _HomeState extends State<Home> {
       });
 
       final newItems = await getJobsData(accessToken, currentPage, pageSize);
+      final profileData = await getProfileData(username, userType, accessToken);
+      storage.setItem('isVerified', profileData.verified ?? false);
+
       setState(() {
         jobs.addAll(newItems);
         currentPage++;

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kaam_daam/global/constants.dart';
 import 'package:kaam_daam/models/job_model.dart';
+import 'package:kaam_daam/services/job_api.dart';
 
 class JobInfo extends StatelessWidget {
   const JobInfo({super.key});
@@ -10,6 +12,10 @@ class JobInfo extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
     final Job jobData = arguments['data'] as Job;
     final String userType = arguments['userType'] as String;
+    final String accessToken = arguments['accessToken'] as String;
+    final String username = arguments['username'] as String;
+    final bool isVerified = storage.getItem('isVerified');
+
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -23,17 +29,44 @@ class JobInfo extends StatelessWidget {
           ),
           floatingActionButton: userType == 'EMPLOYEE'
               ? FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (!isVerified) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('You are not verified'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
+
+                    await applyJob(accessToken, username, jobData.jobid!);
+                  },
                   tooltip: 'Apply',
                   isExtended: true,
                   child: const Text('Apply'),
                 )
-              : FloatingActionButton(
-                  onPressed: () {},
-                  backgroundColor: Colors.red,
-                  tooltip: 'Delete',
-                  isExtended: true,
-                  child: const Icon(Icons.delete),
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      onPressed: () {},
+                      backgroundColor: Colors.green,
+                      tooltip: 'Complete',
+                      isExtended: true,
+                      child: const Icon(Icons.check),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    FloatingActionButton(
+                      onPressed: () {},
+                      backgroundColor: Colors.red,
+                      tooltip: 'Delete',
+                      isExtended: true,
+                      child: const Icon(Icons.delete),
+                    ),
+                  ],
                 ),
           body: Card(
               child: Column(
