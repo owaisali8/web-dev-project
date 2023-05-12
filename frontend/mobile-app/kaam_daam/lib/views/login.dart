@@ -8,15 +8,27 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(children: const [Spacer(), Icon(Icons.work, size: 60), Spacer()]),
-          const LoginForm(),
-          const SizedBox(
-            height: 20,
-          )
-        ],
+          body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const SizedBox(
+              height: 60,
+            ),
+            Row(children: const [
+              Spacer(),
+              Icon(Icons.work, size: 60),
+              Spacer()
+            ]),
+            const SizedBox(
+              height: 60,
+            ),
+            const LoginForm(),
+            const SizedBox(
+              height: 20,
+            )
+          ],
+        ),
       )),
     );
   }

@@ -96,7 +96,20 @@ class ProfileCard extends StatelessWidget {
                 ),
               );
             } else if (snapshot.hasError) {
-              return Center(child: Text('${snapshot.error}'));
+              return Column(
+                children: [
+                  Center(child: Text('${snapshot.error}')),
+                  ListTile(
+                      onTap: () {
+                        storage.clear();
+                        Navigator.pushReplacementNamed(context, '/login');
+                      },
+                      horizontalTitleGap: 1,
+                      leading: const Icon(Icons.logout_rounded),
+                      title: const Text('Log Out'),
+                    )
+                ],
+              );
             } else {
               return const Center(child: CircularProgressIndicator());
             }

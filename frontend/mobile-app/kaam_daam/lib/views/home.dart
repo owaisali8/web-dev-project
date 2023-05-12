@@ -64,6 +64,15 @@ class _HomeState extends State<Home> {
     _loadData();
   }
 
+  Future<void> _refreshData() async {
+    setState(() {
+      jobs.clear();
+      currentPage = 1;
+    });
+
+    _loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
     switch (selectedPageIndex) {
@@ -86,7 +95,9 @@ class _HomeState extends State<Home> {
         ),
         floatingActionButton: userType == 'EMPLOYER'
             ? FloatingActionButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/job/new');
+                },
                 tooltip: 'New Job',
                 child: const Icon(Icons.add),
               )
@@ -112,48 +123,51 @@ class _HomeState extends State<Home> {
           ],
         ),
         body: [
-          ListView.builder(
-            controller: _scrollController,
-            itemCount: jobs.length + 1,
-            itemBuilder: (context, index) {
-              if (index < jobs.length) {
-                return Card(
-                    child: ListTile(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/job/info', arguments: {
-                      "accessToken": accessToken,
-                      "data": jobs[index],
-                      "userType": userType,
-                      "username": username
-                    });
-                  },
-                  horizontalTitleGap: -2,
-                  title: Text(jobs[index].title!),
-                  leading: Text(
-                    '${jobs[index].jobid}',
-                  ),
-                  trailing: Text('${jobs[index].jobtype}'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('${jobs[index].description}'),
-                      Text('Posted On: ${jobs[index].dateposted}'),
-                    ],
-                  ),
-                ));
-              } else {
-                if (isLoading) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                    child: Center(
-                      child: CircularProgressIndicator(),
+          RefreshIndicator(
+            onRefresh: _refreshData,
+            child: ListView.builder(
+              controller: _scrollController,
+              itemCount: jobs.length + 1,
+              itemBuilder: (context, index) {
+                if (index < jobs.length) {
+                  return Card(
+                      child: ListTile(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/job/info', arguments: {
+                        "accessToken": accessToken,
+                        "data": jobs[index],
+                        "userType": userType,
+                        "username": username
+                      });
+                    },
+                    horizontalTitleGap: -2,
+                    title: Text(jobs[index].title!),
+                    leading: Text(
+                      '${jobs[index].jobid}',
                     ),
-                  );
+                    trailing: Text('${jobs[index].jobtype}'),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${jobs[index].description}'),
+                        Text('Posted On: ${jobs[index].dateposted}'),
+                      ],
+                    ),
+                  ));
                 } else {
-                  return const SizedBox();
+                  if (isLoading) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
                 }
-              }
-            },
+              },
+            ),
           ),
           ProfileCard(
             myProfile: myProfile,

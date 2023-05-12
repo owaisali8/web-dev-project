@@ -3,6 +3,7 @@ import 'package:kaam_daam/global/constants.dart';
 import 'package:kaam_daam/global/dark_theme.dart';
 import 'package:kaam_daam/views/home.dart';
 import 'package:kaam_daam/views/job_info.dart';
+import 'package:kaam_daam/views/job_new.dart';
 import 'package:kaam_daam/views/login.dart';
 import 'package:kaam_daam/views/settings.dart';
 import 'package:kaam_daam/views/sign_up.dart';
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
               '/sign-up': (context) => const SignUp(),
               '/home': (context) => const Home(),
               '/settings': (context) => const Settings(),
-              '/job/info':(context) => const JobInfo()
+              '/job/info':(context) => const JobInfo(),
+              '/job/new': (context) => const JobNew()
             },
             themeMode: value.isDarkMode,
             theme: ThemeData(
