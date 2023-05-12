@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kaam_daam/components/profile_card.dart';
+import 'package:kaam_daam/data/job_data.dart';
 import 'package:kaam_daam/data/profile_data.dart';
 import 'package:kaam_daam/global/constants.dart';
+import 'package:kaam_daam/models/job_model.dart';
 import 'package:kaam_daam/models/profile_model.dart';
 
 class Home extends StatefulWidget {
@@ -18,12 +20,14 @@ class _HomeState extends State<Home> {
   final String username = storage.getItem('username');
 
   late Future<Profile> myProfile;
+  late Future<List<Job>> jobs;
   String title = '';
 
   @override
   void initState() {
     super.initState();
     myProfile = getProfileData(username, userType, accessToken);
+    jobs = getJobsData(accessToken);
   }
 
   @override
@@ -74,7 +78,40 @@ class _HomeState extends State<Home> {
           ],
         ),
         body: [
-          const Card(child: ListTile(title: Text('Job 1'))),
+          FutureBuilder(
+            future: jobs,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final data = snapshot.data!;
+                return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                        child: ListTile(
+                      onTap: () {},
+                      horizontalTitleGap: -2,
+                      title: Text(data[index].title!),
+                      leading: Text(
+                        '${data[index].jobid}',
+                      ),
+                      trailing: Text('${data[index].jobtype}'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('${data[index].description}'),
+                          Text('Posted On: ${data[index].dateposted}'),
+                        ],
+                      ),
+                    ));
+                  },
+                );
+              } else if (snapshot.hasError) {
+                return Center(child: Text('${snapshot.error}'));
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
           ProfileCard(myProfile: myProfile, userType: userType)
         ][selectedPageIndex],
       ),
