@@ -112,6 +112,7 @@ class JobInfo extends StatelessWidget {
                             Navigator.pushNamed(context, '/appliedBy',
                                 arguments: {
                                   "accessToken": accessToken,
+                                  "completed": jobData.completed!,
                                   "id": jobData.jobid!
                                 });
                           },

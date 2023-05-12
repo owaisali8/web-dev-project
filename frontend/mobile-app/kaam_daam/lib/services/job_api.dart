@@ -45,8 +45,7 @@ Future<http.Response> newJob(String accessToken, String username, String title,
   );
 }
 
-Future<http.Response> getJobAppliedBy(
-    String accessToken, int id) async {
+Future<http.Response> getJobAppliedBy(String accessToken, int id) async {
   return await http.get(
     Uri.parse('$serverURL/jobs/id/$id/appliedBy'),
     headers: <String, String>{
@@ -54,4 +53,15 @@ Future<http.Response> getJobAppliedBy(
       'Authorization': 'Bearer $accessToken',
     },
   );
+}
+
+Future<http.Response> updateRating(
+    String accessToken, String username, String rating) async {
+  return await http.patch(Uri.parse('$serverURL/employee/updateRating'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode(
+          <String, String>{'username': username, 'rating': rating}));
 }
