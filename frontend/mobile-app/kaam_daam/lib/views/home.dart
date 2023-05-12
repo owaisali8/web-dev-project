@@ -155,7 +155,12 @@ class _HomeState extends State<Home> {
               }
             },
           ),
-          ProfileCard(myProfile: myProfile, userType: userType)
+          ProfileCard(
+            myProfile: myProfile,
+            userType: userType,
+            username: username,
+            accessToken: accessToken,
+          )
         ][selectedPageIndex],
       ),
     );
