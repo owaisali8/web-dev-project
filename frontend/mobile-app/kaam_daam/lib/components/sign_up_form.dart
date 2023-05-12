@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaam_daam/services/sign_up_api.dart';
 import 'package:kaam_daam/validators/email_validator.dart';
 import 'package:intl/intl.dart';
 import 'package:kaam_daam/validators/password_validator.dart';
@@ -278,69 +279,113 @@ class _SignUpFormState extends State<SignUpForm> {
               height: 15,
             ),
             Visibility(
-              visible: dropdownValue == 'Employee',
+                visible: dropdownValue == 'Employee',
                 child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  child: TextFormField(                  
-                    keyboardType: TextInputType.phone,
-                    controller: cnic,
-                    enabled: dropdownValue == 'Employee',
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(40))),
-                        hintText: '42XXXXXXXXX',
-                        labelText: 'CNIC'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter CNIC';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  child: TextFormField(
-                    keyboardType: TextInputType.text,
-                    controller: jobType,
-                    enabled: dropdownValue == 'Employee',
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(40))),
-                        hintText: 'ex: Chef',
-                        labelText: 'Job Type'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter Job Type';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                )
-              ],
-            )),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.phone,
+                        controller: cnic,
+                        enabled: dropdownValue == 'Employee',
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(40))),
+                            hintText: '42XXXXXXXXX',
+                            labelText: 'CNIC'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter CNIC';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        controller: jobType,
+                        enabled: dropdownValue == 'Employee',
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(40))),
+                            hintText: 'ex: Chef',
+                            labelText: 'Job Type'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Job Type';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    )
+                  ],
+                )),
             SizedBox(
                 height: 50,
                 width: 150,
                 child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Please Wait')),
                         );
 
-                        Navigator.pushReplacementNamed(context, '/login');
+                        if (dropdownValue == 'Employer') {
+                          final data = await signUpEmployerAPI(
+                              username.text,
+                              password.text,
+                              name.text,
+                              phone.text,
+                              email.text,
+                              address.text,
+                              dob.text,
+                              gender.text);
+                          if (data.statusCode != 201) {
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(data.body),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                            return;
+                          }
+                        } else {
+                          final data = await signUpEmployeeAPI(
+                              username.text,
+                              password.text,
+                              name.text,
+                              phone.text,
+                              email.text,
+                              address.text,
+                              dob.text,
+                              gender.text,
+                              cnic.text,
+                              jobType.text);
+                          if (data.statusCode != 201) {
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(data.body),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                              return;
+                          }
+                        }
+                        if (!mounted) return;
 
+                        Navigator.pushReplacementNamed(context, '/login');
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text('Account Created. Please Log In.')),
