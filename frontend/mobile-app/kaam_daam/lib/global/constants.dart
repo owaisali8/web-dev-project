@@ -1,4 +1,4 @@
 import 'package:localstorage/localstorage.dart';
 
-const serverURL = 'http://localhost:3000';
+const serverURL = 'http://192.168.10.11:3000';
 final LocalStorage storage = LocalStorage('kaam_daam');
