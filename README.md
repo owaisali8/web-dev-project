@@ -66,4 +66,9 @@ Reason: Express.js, is a web application framework for Node.js, released as free
 
 ### Screenshots:
 
+<img src="https://github.com/owaisali8/web-dev-project/blob/main/screenshots/mobile-app-home.png" height="30%" width="30%" />  <img src="https://github.com/owaisali8/web-dev-project/blob/main/screenshots/mobile-app-profile.png" height="30%" width="30%" />
+
+<img src="https://github.com/owaisali8/web-dev-project/blob/main/screenshots/landing-page.png" height="50%" width="50%" />  <img src="https://github.com/owaisali8/web-dev-project/blob/main/screenshots/web-app.png" height="50%" width="50%" />
+
+
 
