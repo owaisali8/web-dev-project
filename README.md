@@ -1,5 +1,6 @@
 # Kaam Daam (کام دام)  
 ## Domestic Services Provider App
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f82c9a04-ff89-4b40-b3d4-8e932d8df212/deploy-status)](https://app.netlify.com/sites/kaamdaam/deploys)
 
 ![Tech Stack](https://github-readme-tech-stack.vercel.app/api/cards?title=Tech%20Stack&lineCount=2&line1=react,react,auto;Flutter,Flutter,auto;vite,Vite,auto;&line2=nodedotjs,Node,auto;express,express,auto;postgresql,Postgresql,auto;)
 
