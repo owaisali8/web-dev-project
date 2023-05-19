@@ -4,6 +4,14 @@
 
 ![Tech Stack](https://github-readme-tech-stack.vercel.app/api/cards?title=Tech%20Stack&lineCount=2&line1=react,react,auto;Flutter,Flutter,auto;vite,Vite,auto;&line2=nodedotjs,Node,auto;express,express,auto;postgresql,Postgresql,auto;)
 
+
+| Component | Deployed On | 
+|--|--|
+| Admin Portal | [Netlify](https://kaamdaam.netlify.app/) | 
+| User Portal| [Netlify](https://kaamdaam-mobile.netlify.app/#/) | 
+| Backend | [Render](https://kaam-daam-backend.onrender.com) | 
+|Database|Render|
+
 ### Description 
 Hiring a maid for home chores or a gardener to look after a garden is a daunting task especially for females in Pakistan as people seem to have trust issues due to authenticity and security concerns.
 
