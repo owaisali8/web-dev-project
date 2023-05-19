@@ -1,4 +1,11 @@
 const { Pool, types } = require('pg')
+require('dotenv').config()
+
+const DB_USER = process.env.DB_USER
+const DB_HOST = process.env.DB_HOST
+const DB_NAME = process.env.DB_NAME
+const DB_PWD = process.env.DB_PWD
+const DB_PORT = process.env.DB_PORT
 
 types.setTypeParser(1082, function (stringValue) {
     var arr = stringValue.split('-')
@@ -7,11 +14,12 @@ types.setTypeParser(1082, function (stringValue) {
 });
 
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'kaam_daam_db',
-    password: '1204',
-    port: 5433
+    user: DB_USER,
+    host: DB_HOST,
+    database: DB_NAME,
+    password: DB_PWD,
+    port: DB_PORT,
+    ssl: true
 });
 
 const connectDB = () => {
